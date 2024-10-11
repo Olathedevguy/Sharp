@@ -54,6 +54,8 @@ const Auth = () => {
         }
     }
 
+    
+
   return (
     <div className='flex  items-center justify-center mt-10'>
       <div className='flex gap-36 items-center bg-white rounded-xl px-20 py-14 '>
