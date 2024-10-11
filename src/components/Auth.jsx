@@ -7,7 +7,7 @@ import { InfinitySpin } from 'react-loader-spinner';
 import { setDoc } from 'firebase/firestore';
 import { doc } from 'firebase/firestore';
 
-const Auth = () => {
+const Auth = ({isPopupOpen,setIsPopupOpen}) => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -32,6 +32,7 @@ const Auth = () => {
              const userCredential = await createUserWithEmailAndPassword(auth, email, password)
              const user = userCredential.user
              await storeUserData(user)
+             setIsPopupOpen(false)
         } catch (error) {
             console.error(error)
         } finally {
@@ -47,6 +48,7 @@ const Auth = () => {
             const userCredential = await signInWithPopup(auth, googleprovider)
             const user = userCredential.user
             await storeUserData(user)
+            setIsPopupOpen(false)
         } catch (error) {
             console.error(error)
         } finally {
@@ -54,11 +56,16 @@ const Auth = () => {
         }
     }
 
-    
+    // ()=>setIsPopupOpen(false)
 
   return (
-    <div className='flex  items-center justify-center mt-10'>
-      <div className='flex gap-36 items-center bg-white rounded-xl px-20 py-14 '>
+    <div className='flex items-center justify-center  fixed inset-0 h-screen z-50 bg-gray-800 bg-opacity-50'>
+        <button onClick={() => {setIsPopupOpen(!isPopupOpen)
+            console.log('i was clicked')
+        }} className='py-4 px-2 bg-black text-white text-2xl'>
+            &times;
+        </button>
+      <div className='flex gap-36 items-center bg-white rounded-xl px-20 py-12 '>
         <div className=' w-[600px] '><img className='rounded-xl' src={images.authpageImg2} alt="" /></div>
         <div className='flex flex-col gap-[15px]'>
             <div className='flex flex-col'>
