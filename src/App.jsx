@@ -1,34 +1,57 @@
 import React, { useState } from 'react'
 import Auth from './components/Auth'
 import Navbar from './components/Navbar'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 import Home from './components/Home'
 import Menu from './components/Menu'
 import Admin from './components/admin/Admin'
+import Users from './components/admin/Users'
+import Upload from './components/admin/Upload'
+import Setting from './components/admin/Setting'
+import AdminAuthPage from './components/admin/AdminAuthPage'
 
 const App = () => {
 
   const [isPopupOpen, setIsPopupOpen] =  useState(false);
+  const [isAdminLoginSuccessful, setIsAdminLoginSuccessful] =  useState(false)
+  const navigate = useNavigate()
+  
+  const adminRoutes = ['/admin', '/admin/auth', '/admin/users', '/admin/upload', '/admin/settings', ]
+
+
+  const displayNav = () =>{
+    if(!adminRoutes.includes(window.location.pathname)){
+      return <Navbar />
+    }
+  }
+
+  const handleAdminSuccess = () =>{
+    setIsAdminLoginSuccessful(true)
+    navigate('/admin')
+  }
 
   return (
     <>
     <div className='relative'>
+      {/* <Navbar /> */}
       {/* <Auth /> */}
       {
-        window.location.pathname != '/admin' && <Navbar setIsPopupOpen={setIsPopupOpen}/>
+        displayNav()
       }
-      {
-        isPopupOpen ? (<Auth isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen}/> && <Home />) :(<Navigate to='/' />) 
-  
-      }     
+ 
+ 
 
       
       
       <Routes>
         <Route path='/menu' element={<Menu />}/>
-        <Route path='/' element={<Home />}/>
-      <Route path='/signUp' element={<Auth isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen}/>} />
-        <Route path = '/admin' element={<Admin />} />
+        <Route path='/' element={<Home isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen}/>}/>
+      <Route path='/signUp' element={<Auth />} />
+        <Route path = '/admin' element={isAdminLoginSuccessful ? <Admin /> : <Navigate to='/admin/auth'/> } />
+        <Route path='/admin/users' element={<Users />}/>
+        <Route path='/admin/upload' element={<Upload />}/>
+        <Route path='/admin/settings' element={<Setting />}/>
+        <Route path='/admin/auth' element={<AdminAuthPage isAdminLoginSuccessful={isAdminLoginSuccessful} handleAdminSuccess={handleAdminSuccess}/>} />
       </Routes>
 
     </div> 

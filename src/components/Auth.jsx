@@ -6,9 +6,12 @@ import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { InfinitySpin } from 'react-loader-spinner';
 import { setDoc } from 'firebase/firestore';
 import { doc } from 'firebase/firestore';
+import Navbar from './Navbar';
+import { useNavigate } from 'react-router-dom';
 
-const Auth = ({isPopupOpen,setIsPopupOpen}) => {
+const Auth = () => {
 
+    const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [isLoading, setIsLoading] =  useState(false)
@@ -18,6 +21,7 @@ const Auth = ({isPopupOpen,setIsPopupOpen}) => {
         const userData = {
             uid: user.uid,
             email: user.email,
+            role: 'user'
         }
 
         await setDoc(doc(db, "users", user.uid), userData)
@@ -31,14 +35,15 @@ const Auth = ({isPopupOpen,setIsPopupOpen}) => {
         try {
              const userCredential = await createUserWithEmailAndPassword(auth, email, password)
              const user = userCredential.user
-             await storeUserData(user)
-             setIsPopupOpen(false)
+             await storeUserData(user) 
+             setEmail('')
+            setPassword('')
+            //  setIsPopupOpen(false)
         } catch (error) {
             console.error(error)
         } finally {
             setIsLoading(false)
-            setEmail('')
-            setPassword('')
+            navigate('/')
         }
     }
 
@@ -48,23 +53,25 @@ const Auth = ({isPopupOpen,setIsPopupOpen}) => {
             const userCredential = await signInWithPopup(auth, googleprovider)
             const user = userCredential.user
             await storeUserData(user)
-            setIsPopupOpen(false)
+            setEmail('')
+            setPassword('')
+            // setIsPopupOpen(false)
         } catch (error) {
             console.error(error)
         } finally {
             setIsLoading(false)
+            navigate('/')
         }
     }
 
-    // ()=>setIsPopupOpen(false)
+    // ()=>setIsPopupOpen(false)fixed inset-0 h-screen z-50 bg-gray-800 bg-opacity-50
 
-  return (
-    <div className='flex items-center justify-center  fixed inset-0 h-screen z-50 bg-gray-800 bg-opacity-50'>
-        <button onClick={() => {setIsPopupOpen(!isPopupOpen)
-            console.log('i was clicked')
-        }} className='py-4 px-2 bg-black text-white text-2xl'>
+  return (<>
+  
+    <div className='flex items-center justify-center bg-custom-image2 h-screen   '>
+        {/* <button   className='py-4 px-2 bg-black text-white text-2xl'>
             &times;
-        </button>
+        </button> */}
       <div className='flex gap-36 items-center bg-white rounded-xl px-20 py-12 '>
         <div className=' w-[600px] '><img className='rounded-xl' src={images.authpageImg2} alt="" /></div>
         <div className='flex flex-col gap-[15px]'>
@@ -102,6 +109,7 @@ const Auth = ({isPopupOpen,setIsPopupOpen}) => {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

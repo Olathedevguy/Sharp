@@ -16,6 +16,19 @@ import aesth_3 from './download (5).jpeg'
 import trend_1 from './running-shoes.png'
 import trend_2 from './fleece.jpg'
 import trend_3 from './gym.jpg'
+import admin_home_icon_active from './admin_home_active.svg'
+import admin_users_icon_active from './admin_user_active.svg'
+import admin_upload_icon_active from './admin_upload_active.svg'
+import admin_setting_icon_active from './admin_settings_active.svg'
+import admin_home_icon from './typcn_home.svg'
+import admin_users_icon from './users.svg'
+import admin_upload_icon from './upload.svg'
+import admin_setting_icon from './settings.svg'
+import admin_info_icon from './info.svg'
+import admin_logout_icon from './logout.svg'
+import calendar from './calendar.svg'
+import defaultProfile from './happy black man 16938613-9a31-4a8d-bd8f-c70e8a151335.png'
+import admin_bg from './craig-lovelidge-4O9NJ3cJo88-unsplash.jpg'
 
 export const images = {
     authPageImg,
@@ -31,6 +44,20 @@ export const images = {
     nike_icon,
     aesth_1, aesth_2, aesth_3,
     trend_1, trend_2, trend_3,
+    admin_home_icon_active,
+    admin_users_icon_active,
+    admin_upload_icon_active,
+    admin_setting_icon_active,
+    admin_home_icon,
+    admin_users_icon,
+    admin_upload_icon,
+    admin_setting_icon,
+    admin_info_icon,
+    admin_logout_icon,
+    calendar,
+    defaultProfile,
+    admin_bg
+
 }
 
 export const details = [
