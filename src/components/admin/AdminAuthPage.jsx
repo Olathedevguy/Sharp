@@ -44,6 +44,12 @@ const AdminAuthPage = ({ isAdminLoginSuccessful, handleAdminSuccess }) => {
         }
     }
 
+    const handleKeyPress = (e) =>{
+       if( e.key === 'Enter' ){
+        loginAsAdmin
+       } 
+    }
+
     return (
         <div  className='flex items-center bg-custom-image3 justify-center h-screen w-screen'> 
             <div className='flex flex-col justify-center gap-10 bg-white w-[500px] h-[400px] items-center mt-28 shadow-lg rounded-lg backdrop-blur-lg bg-opacity-20 shadow-slate-600'>
@@ -53,14 +59,14 @@ const AdminAuthPage = ({ isAdminLoginSuccessful, handleAdminSuccess }) => {
                 <label htmlFor="">Admin</label>
                 <input
                     className='border-[0.1px] rounded-md border-[#808080] w-[400px] py-3 px-3 outline-none bg-gray-200'
-                    placeholder='enter admin email' type='email' onChange={e => setEmail(e.target.value)} />
+                    placeholder='enter admin email' type='email' onChange={e => setEmail(e.target.value)} onKeyDown={handleKeyPress}/>
             </div>
 
             <div className='flex flex-col'>
                 <label htmlFor="">Password</label>
                 <input
                     className='border-[0.1px] rounded-md border-[#808080] w-[400px] py-3 px-3 outline-none bg-gray-200'
-                    type="password" placeholder='enter admin password' onChange={e => setPassword(e.target.value)} />
+                    type="password" placeholder='enter admin password' onChange={e => setPassword(e.target.value)}  onKeyDown={handleKeyPress}/>
             </div> 
             </div>
          

@@ -5,7 +5,9 @@ const Upload = () => {
   return (
     <div>
     <SideBar />
-      uploads page
+      <div>
+        
+      </div>
     </div>
   )
 }
