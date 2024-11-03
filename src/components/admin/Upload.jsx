@@ -8,6 +8,7 @@ import { v4 } from 'uuid'
 const Upload = () => {
 
   const itemsCollectionRef = collection(db, 'shopItems')
+  const [isLoading, setIsLoading] = useState(false)
 
   const [itemName, setItemName] =  useState('')
   const [itemPrice, setItemPrice] = useState(0)
@@ -23,7 +24,9 @@ const Upload = () => {
     try {
       await addDoc(itemsCollectionRef,{
         name: itemName,
-        price: itemPrice,
+  price: itemPrice,
+  description: itemDesc,
+  imageUrl: imgList[0]
       })
     } catch (error) {
       console.error(error)
@@ -34,7 +37,7 @@ const Upload = () => {
   const getUploadList = async () =>{
     try {
       const data = await getDocs(itemsCollectionRef)
-      const filteredData = await data.docs.map((items) => (
+      const filteredData = data.docs.map((items) => (
         {
           ...items.data(),
           id: items.id
@@ -64,7 +67,7 @@ const Upload = () => {
   useEffect(()=>{
     getUploadList()
 
-    listAll(imgList).then((response) =>{
+    listAll(imgListRef).then((response) =>{
       const promises = response.items.map((item)=>{
         return getDownloadURL(item).then((url)=>url)
       })
@@ -78,14 +81,14 @@ const Upload = () => {
   console.log(uploadList)
 
   return (
-    <div>
+    <div className='flex gap-9'>
     <SideBar />
-      <div>
-        <input type="file" onChange={e=>setImgUpload(e.target.files[0])}/>
-        <input type="text" placeholder='Enter the product name' onChange={e=>setItemName(e.target.value)}/>
-        <input type="text" placeholder='Enter product description' onChange={e=>setItemDesc(e.target.value)}/>
-        <input type="number" placeholder='Enter product price' onChange={e=>setItemPrice(e.target.value)} />
-        <button onClick={uploadAll}>Upload</button>
+      <div className='flex flex-col justify-center gap-4'>
+        <input className='border border-black' type="file" onChange={e=>setImgUpload(e.target.files[0])}/>
+        <input className='border border-black text-center' type="text" placeholder='Enter the product name' onChange={e=>setItemName(e.target.value)}/>
+        <input className='border border-black text-center' type="text" placeholder='Enter product description' onChange={e=>setItemDesc(e.target.value)}/>
+        <input className='border border-black text-center' type="number" placeholder='Enter product price' onChange={e=>setItemPrice(Number(e.target.value))} />
+        <button className='border border-black bg-black text-white items-center text-center px-8 py-2' onClick={upload}>Upload</button>
       </div>
     </div>
   )
