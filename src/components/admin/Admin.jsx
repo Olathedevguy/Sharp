@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import SideBar from './SideBar'
 import { images } from '../../assets/asset'
 
+import { LineChart, ThumbsUp, User } from 'lucide-react'
+import { GlobalContext } from '../../context/Appcontext'
+
 const Admin = () => {
+
+  const {userList} = useContext(GlobalContext)
 
   const getDate = () =>{
     const today = new Date()
@@ -50,10 +55,41 @@ const Admin = () => {
           <img className='w-[40px]' src={images.calendar} alt="" />
           <p className='text-sm text-black'>{getDate()}</p>
         </div>
+
+        {/* main page */}
+        <div className='pt-10'>
+          <p className='font-semibold '>Performance</p>
+
+            <div className='border-t border-b flex justify-center text-center'>
+              <div className='flex gap-4 justify-center text-center items-center border-r h-[90px] w-[300px]'>
+                <div className='bg-lime-500 rounded-full w-12 h-12 flex items-center justify-center'><User color='#fff'/></div>
+                <div>
+                  <p className='text-lg'>Users</p>
+                  <p className='text-xs text-gray-400'>{userList.length}</p>
+                </div>
+              </div>
+              <div className='flex gap-4 justify-center text-center items-center border h-[90px] w-[300px]'>
+                <div className='bg-purple-500 rounded-full w-12 h-12 flex items-center justify-center'><ThumbsUp color='#fff'/></div>
+                <div>
+                  <p className='text-lg'>Users</p>
+                  <p className='text-xs text-gray-400'>7</p>
+                </div>
+                
+              </div>
+              <div className='flex gap-4 justify-center text-center items-center border-l h-[90px] w-[300px]'>
+              <div className='bg-orange-500 rounded-full w-12 h-12 flex items-center justify-center'><User color='#fff'/></div>
+              <div>
+                  <p className='text-lg'>Users</p>
+                  <p className='text-xs text-gray-400'>7</p>
+                </div>
+              </div>
+            </div>
+        </div>
       </div>
 
 
     </div>
+    
   )
 }
 
