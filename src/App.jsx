@@ -9,6 +9,7 @@ import Users from './components/admin/Users'
 import Upload from './components/admin/Upload'
 import Setting from './components/admin/Setting'
 import AdminAuthPage from './components/admin/AdminAuthPage'
+import Test from './test/Test.jsx'
 
 const App = () => {
 
@@ -52,6 +53,7 @@ const App = () => {
         <Route path='/admin/upload' element={<Upload />}/>
         <Route path='/admin/settings' element={<Setting />}/>
         <Route path='/admin/auth' element={<AdminAuthPage isAdminLoginSuccessful={isAdminLoginSuccessful} handleAdminSuccess={handleAdminSuccess}/>} />
+        <Route path='/test' element={<Test />} />
       </Routes>
 
     </div> 

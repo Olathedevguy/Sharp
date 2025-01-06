@@ -29,6 +29,9 @@ import admin_logout_icon from './logout.svg'
 import calendar from './calendar.svg'
 import defaultProfile from './happy black man 16938613-9a31-4a8d-bd8f-c70e8a151335.png'
 import admin_bg from './craig-lovelidge-4O9NJ3cJo88-unsplash.jpg'
+import nikeshoePLaceholder from './NIKE+AIR+MAX+IMPACT+4.png'
+import cab from './cart-arrow-black.png'
+import caw from './cart-arrow-white.png'
 
 export const images = {
     authPageImg,
@@ -56,7 +59,10 @@ export const images = {
     admin_logout_icon,
     calendar,
     defaultProfile,
-    admin_bg
+    admin_bg,
+    nikeshoePLaceholder,
+    cab,
+    caw
 
 }
 

@@ -4,7 +4,7 @@ import { images } from '../assets/asset'
 
 const Navbar = () => {
   return (
-    <div className='sticky top-0  bg-white shadow-lg backdrop-blur-lg w-full'>
+    <div className='sticky top-0  bg-white shadow-lg backdrop-blur-lg w-full z-30'>
       <nav className='flex items-center px-10 py-4 w-'>
         {/* md:text-[#1E1E1E] text-gray-600 ☝️☝️ */}
         <Link to='/menu' className='w-full'>
