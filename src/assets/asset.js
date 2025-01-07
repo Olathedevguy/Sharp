@@ -3,7 +3,6 @@ import authpageImg2 from './2022_02_49_FL_ONL_Nike_refresh_group_800x800.webp'
 import menu_icon from './menu_bar.png'
 import cart_icon from './cart icon.png'
 import ellipse from './Ellipse 1.svg'
-import backGround from './bg1.jpg'
 import banner_1 from './banner_1.png'
 import user_icon from './user_icon.png'
 import google_icon from './google_icon.png'
@@ -28,7 +27,6 @@ import admin_info_icon from './info.svg'
 import admin_logout_icon from './logout.svg'
 import calendar from './calendar.svg'
 import defaultProfile from './happy black man 16938613-9a31-4a8d-bd8f-c70e8a151335.png'
-import admin_bg from './craig-lovelidge-4O9NJ3cJo88-unsplash.jpg'
 import nikeshoePLaceholder from './NIKE+AIR+MAX+IMPACT+4.png'
 import cab from './cart-arrow-black.png'
 import caw from './cart-arrow-white.png'
@@ -39,7 +37,6 @@ export const images = {
     menu_icon,
     cart_icon,
     ellipse,
-    backGround,
     banner_1,user_icon,
     google_icon,
     lock_icon,
@@ -59,7 +56,6 @@ export const images = {
     admin_logout_icon,
     calendar,
     defaultProfile,
-    admin_bg,
     nikeshoePLaceholder,
     cab,
     caw
