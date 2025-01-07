@@ -8,14 +8,14 @@
     font-family: "Poppins", sans-serif;
 }
 
-.slick-prev{
+.slick-prev:before{
     color: black;
     position: absolute;
     left: -10px;
     z-index:  10;
     
 }
-.slick-next{
+.slick-next:before{
     color: black;
     position: absolute;
     right: 10px;
@@ -27,3 +27,7 @@
 .slick-prev:hover{
     color: grey;
 }
+/* .custom-transition{
+    translate: 2px 0;
+    transition: translate 0.3s ease;
+} */

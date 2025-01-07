@@ -6,7 +6,7 @@ import Cards from './Cards';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, ZapIcon } from 'lucide-react';
 
 const Home = () => {
 
@@ -17,6 +17,15 @@ const Home = () => {
     slidesToShow: 5,
     slidesToScroll: 5,
   };
+
+  let settings2 = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
   
 
   return (
@@ -41,7 +50,7 @@ const Home = () => {
         </div> */}
       </div>
 
-      <div className='px-[100px]'>
+      <div className='md:px-[100px] px-10'>
         <div className='flex items-center justify-center'>
           <div>
             <img className='w-[300px]' src={images.aesth_1} alt="" />
@@ -64,7 +73,7 @@ const Home = () => {
 
         <div className='mt-20 mb-20'>
           <p className='font-semibold text-lg items-left mb-10'>EXPLORE ALL</p>
-          <div className='relative'>
+          <div className='relative md:visible invisible'>
           <Slider {...settings}>
           <Cards/>
           <Cards/>
@@ -83,6 +92,16 @@ const Home = () => {
           </Slider>
           </div>
 
+          <div className='relative md:invisible visible'>
+          <Slider {...settings2}>
+          <Cards/>
+          <Cards/>
+          <Cards/>
+          <Cards/>
+          <Cards/>
+          </Slider>
+          </div>
+
           <div className='mt-[100px]'>
             <img src={images.banner_1} alt="" />
           </div>
@@ -92,14 +111,14 @@ const Home = () => {
           </div>
 
           <div>
-            <div className='flex justify-between'>
-              <p>CATEGORIES</p>
+            <div className='flex justify-between mb-10'>
+              <p className='font-semibold text-lg'>CATEGORIES</p>
               <button className='flex border px-2 border-gray-500 rounded-sm'>
                 <p className='text-gray-500'>All</p>
                 <ChevronDown  color='gray'/>
               </button>
             </div>
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="flex flex-wrap justify-center gap-6">
   <Cards />
   <Cards />
   <Cards />
@@ -116,7 +135,44 @@ const Home = () => {
 </div>
 
           </div>
+
+          <div className='flex justify-center items-center my-20'>
+            <img src={images.aesth_3} className='w-[300px]' alt="" />
+          </div>
         </div>
+
+
+        {/* bento box */}
+        <section className='flex justify-center items-center '>
+          <div className='flex md:flex-row flex-col gap-4'>
+          <div className=' flex flex-col gap-4'>
+          <div className='flex md:flex-row flex-col gap-4 '>
+            <div className='bg-custom-image4 md:w-[500px] w-[300px]  h-[300px] bg-cover rounded-xl '>
+              <p className='text-end text-white font-bold pr-5 pt-36 text-2xl'>Run the day,<br/> don&apos;let it <br /> run you.</p>
+            </div>
+            <div className='flex flex-col gap-4'>
+              <div className='bg-custom-image5 md:w-[500px] w-[300px] h-[200px] bg-cover bg-center  rounded-xl' ></div>
+              <div className='bg-[#203429] md:w-[500px] w-[300px] h-[90px]  rounded-xl items-center justify-center flex'>
+                <p className='text-center text-white font-bold text-2xl '>Waits for no one</p>
+              </div>
+            </div>
+          </div>
+          <div className='bg-custom-image7 md:w-[1016px] w-[300px] h-[300px] bg-cover bg-blend-soft-light  rounded-xl'>
+            <p className='text-start md:w-[500px] w-[300px] text-white font-bold text-2xl pl-4 pt-44'>Don&apos;t believe you have to be like anybody to be somebody.</p>
+          </div>
+          </div>
+          <div className='flex flex-col gap-4'>
+          <div className='bg-custom-image6  w-[300px] h-[400px] bg-cover  rounded-xl'></div>
+          <div className='bg-[#A6BDD3]  w-[300px] h-[200px]  rounded-xl justify-center items-center flex'>
+          <p className='text-center text-white font-bold text-2xl'>Just Do It! <ZapIcon color='yellow'/></p>
+          </div>
+          </div>
+          </div>
+          
+        </section>
+
+
+
       </div>
     </div>
   );
