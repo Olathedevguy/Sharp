@@ -1,14 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SideBar from "./SideBar";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { db, storage } from "../../config/Firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
-import { GlobalContext } from "../../context/Appcontext";
-import { LucideTrash } from "lucide-react";
 
 const Upload = () => {
-  const {deleteItem} = useContext(GlobalContext)
   const itemsCollectionRef = collection(db, "shopItems");
 
   const [isLoading, setIsLoading] = useState(false);
@@ -134,7 +131,6 @@ const Upload = () => {
               <h2 className="font-bold text-lg">{item.name}</h2>
               <p className="text-gray-600">{item.description}</p>
               <p className="text-green-500 font-semibold">${item.price}</p>
-              <button className="bg-red-600 flex items-center text-white px-2 py-2 rounded-md" onClick={()=>deleteItem(item.id, item.imageUrl)}><p>Delete</p><LucideTrash size={20}/></button>
             </div>
           ))}
         </div>
