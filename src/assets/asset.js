@@ -30,6 +30,7 @@ import defaultProfile from './happy black man 16938613-9a31-4a8d-bd8f-c70e8a1513
 import nikeshoePLaceholder from './NIKE+AIR+MAX+IMPACT+4.png'
 import cab from './cart-arrow-black.png'
 import caw from './cart-arrow-white.png'
+import bannerMobile from './banner-mobile.jpg'
 
 export const images = {
     authPageImg,
@@ -58,8 +59,8 @@ export const images = {
     defaultProfile,
     nikeshoePLaceholder,
     cab,
-    caw
-
+    caw,
+    bannerMobile
 }
 
 export const details = [

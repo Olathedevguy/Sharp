@@ -1,6 +1,8 @@
-import { collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { useContext, useEffect, useState, createContext } from "react";
-import { db } from "../config/Firebase";
+import { db, storage } from "../config/Firebase";
+import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { v4 } from "uuid";
 
 // Step 1: Create the GlobalContext
 export const GlobalContext = createContext();
@@ -28,9 +30,93 @@ export const GlobalContext = createContext();
     }
   };
 
+  const itemsCollectionRef = collection(db, "shopItems");
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [itemName, setItemName] = useState("");
+  const [itemPrice, setItemPrice] = useState(0);
+  const [itemDesc, setItemDesc] = useState("");
+  const [imgUpload, setImgUpload] = useState(null);
+  const [uploadList, setUploadItems] = useState([]);
+
+  // Fetch items from Firestore
+  const getUploadList = async () => {
+    try {
+      const data = await getDocs(itemsCollectionRef);
+      const filteredData = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setUploadItems(filteredData);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+    }
+  };
+
+  // Upload image and text data
+  const uploadAll = async () => {
+    if (!imgUpload || !itemName || !itemPrice || !itemDesc) {
+      alert("Please fill all fields and select an image!");
+      return;
+    }
+
+    setIsLoading(true); // Show loading state
+
+    const imageRef = ref(storage, `ItemImages/${imgUpload.name + v4()}`);
+    try {
+      // Upload the image and get its URL
+      const snapshot = await uploadBytes(imageRef, imgUpload);
+      const imageUrl = await getDownloadURL(snapshot.ref);
+
+      // Save text data and image URL in Firestore
+      const docRef = await addDoc(itemsCollectionRef, {
+        name: itemName,
+        price: itemPrice,
+        description: itemDesc,
+        imageUrl: imageUrl,
+      });
+
+      // Add the new item to the state for immediate rendering
+      setUploadItems((prev) => [
+        ...prev,
+        {
+          id: docRef.id,
+          name: itemName,
+          price: itemPrice,
+          description: itemDesc,
+          imageUrl: imageUrl,
+        },
+      ]);
+
+      console.log("Item uploaded successfully!");
+    } catch (error) {
+      console.error("Error uploading item:", error);
+    } finally {
+      setIsLoading(false); // Reset loading state
+    }
+  };
+
+  const deleteItem = async (itemId, imageUrl)=>{
+    try {
+      const docRef = doc(db, "  shopItems", itemId)
+      await deleteDoc(docRef)
+
+      const imageRef = ref(storage, imageUrl)
+      await deleteObject(imageRef)
+
+      setUploadItems((prev) => prev.filter((item) => item.id !== itemId));
+
+      console.log('Item DELETED successfully')
+    } catch (error) {
+      console.error("Error  deleting item:", error  )
+    }
+  }
+
+  // Fetch items on component mount
  
   useEffect(() => {
     getUserList();
+    getUploadList();
   }, []);
 
  
@@ -38,6 +124,9 @@ export const GlobalContext = createContext();
     userList,
     loadingState,
     getUserList,
+    getUploadList,
+    uploadList,
+    deleteItem
   };
 
   return (
