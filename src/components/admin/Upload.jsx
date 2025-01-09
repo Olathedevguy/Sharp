@@ -10,10 +10,12 @@ const Upload = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [itemName, setItemName] = useState("");
-  const [itemPrice, setItemPrice] = useState(0);
+  const [itemPrice, setItemPrice] = useState("");
   const [itemDesc, setItemDesc] = useState("");
   const [imgUpload, setImgUpload] = useState(null);
   const [uploadList, setUploadItems] = useState([]);
+  const [imgPreview, setImgPreview] = useState(null);
+  const [show, setShow] = useState(false);
 
   // Fetch items from Firestore
   const getUploadList = async () => {
@@ -47,7 +49,7 @@ const Upload = () => {
       // Save text data and image URL in Firestore
       const docRef = await addDoc(itemsCollectionRef, {
         name: itemName,
-        price: itemPrice,
+        price: parseFloat(itemPrice),
         description: itemDesc,
         imageUrl: imageUrl,
       });
@@ -58,11 +60,18 @@ const Upload = () => {
         {
           id: docRef.id,
           name: itemName,
-          price: itemPrice,
+          price: parseFloat(itemPrice),
           description: itemDesc,
           imageUrl: imageUrl,
         },
       ]);
+
+      // Reset the form
+      setItemName("");
+      setItemPrice("");
+      setItemDesc("");
+      setImgUpload(null);
+      setImgPreview(null);
 
       console.log("Item uploaded successfully!");
     } catch (error) {
@@ -71,7 +80,17 @@ const Upload = () => {
       setIsLoading(false); // Reset loading state
     }
   };
-  
+
+  const handleImgChange = (e) => {
+    const file = e.target.files[0];
+    setImgUpload(file);
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setImgPreview(previewUrl);
+    } else {
+      setImgPreview(null);
+    }
+  };
 
   // Fetch items on component mount
   useEffect(() => {
@@ -82,59 +101,94 @@ const Upload = () => {
     <div className="flex gap-9">
       <SideBar />
       <div className="flex flex-col w-full p-4">
-        {/* Form for uploading items */}
-        <div className="flex flex-col justify-center gap-4 mb-8">
-          <input
-            className="border border-black"
-            type="file"
-            onChange={(e) => setImgUpload(e.target.files[0])}
-          />
-          <input
-            className="border border-black text-center"
-            type="text"
-            placeholder="Enter the product name"
-            onChange={(e) => setItemName(e.target.value)}
-          />
-          <input
-            className="border border-black text-center"
-            type="text"
-            placeholder="Enter product description"
-            onChange={(e) => setItemDesc(e.target.value)}
-          />
-          <input
-            className="border border-black text-center"
-            type="number"
-            placeholder="Enter product price"
-            onChange={(e) => setItemPrice(Number(e.target.value))}
-          />
-          <button
-            className="border border-black bg-black text-white px-8 py-2"
-            onClick={uploadAll}
-            disabled={isLoading}
-          >
-            {isLoading ? "Uploading..." : "Upload"}
-          </button>
-        </div>
+        {/* Image Preview */}
+        {imgPreview && (
+          <div className="w-40 h-40 border border-gray-300 rounded-lg overflow-hidden">
+            <img
+              className="w-full h-full object-cover"
+              src={imgPreview}
+              alt="image preview"
+            />
+          </div>
+        )}
+<div className="flex flex-col w-[1200px] p-8 bg-white rounded-lg shadow-lg ">
+  {/* Form for uploading items */}
+  <div className="flex flex-col items-center gap-6 mb-8 p-6 bg-gray-50 rounded-lg shadow-sm">
+    <h2 className="text-xl font-semibold text-gray-800">Upload New Product</h2>
+    <input
+      className="w-full md:w-1/2 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      type="file"
+      onChange={handleImgChange}
+    />
+    <input
+      className="w-full md:w-1/2 border border-gray-300 rounded-lg p-3 text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+      type="text"
+      placeholder="Enter the product name"
+      value={itemName}
+      onChange={(e) => setItemName(e.target.value)}
+    />
+    <textarea
+      className="w-full md:w-1/2 border border-gray-300 rounded-lg p-3 text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+      placeholder="Enter product description"
+      value={itemDesc}
+      onChange={(e) => setItemDesc(e.target.value)}
+      rows="4"
+    />
+    <input
+      className="w-full md:w-1/2 border border-gray-300 rounded-lg p-3 text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+      type="number"
+      placeholder="Enter product price"
+      value={itemPrice}
+      onChange={(e) => setItemPrice(e.target.value)}
+    />
+    <button
+      className="w-full md:w-1/2 bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition duration-200 ease-in-out disabled:bg-gray-400 disabled:cursor-not-allowed"
+      onClick={uploadAll}
+      disabled={isLoading}
+    >
+      {isLoading ? "Uploading..." : "Upload"}
+    </button>
+  </div>
 
-        {/* Display uploaded items */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8">
-          {uploadList.map((item) => (
-            <div
-              key={item.id}
-              className="border border-gray-300 rounded-lg p-4 flex flex-col items-center"
-            >
-              <img
-                src={item.imageUrl}
-                alt={item.name}
-                className="w-full h-40 object-cover mb-4"
-              />
-              <h2 className="font-bold text-lg">{item.name}</h2>
-              <p className="text-gray-600">{item.description}</p>
-              <p className="text-green-500 font-semibold">${item.price}</p>
-            </div>
-          ))}
-        </div>
+  {/* Display uploaded items */}
+<div className="mt-6 mb-4">
+  <h2 className="text-xl font-semibold text-gray-800 ">
+    Uploaded Items
+  </h2>
+  </div>
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    {uploadList.map((item) => (
+      <div
+        key={item.id}
+        className="bg-gray-50 border border-gray-300 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow duration-300"
+      >
+        <img
+          src={item.imageUrl}
+          alt={item.name}
+          className="w-full h-40 object-cover mb-4 rounded-lg"
+        />
+        <h2 className="font-bold text-lg text-center mb-2 text-gray-800">
+          {item.name}
+        </h2>
+        <p className="text-gray-600 text-sm text-center mb-2">
+          {show
+            ? item.description.slice(0, 75) + "..."
+            : item.description}
+          <span
+            onClick={() => setShow(!show)}
+            className="underline cursor-pointer text-blue-500 ml-2"
+          >
+            show more
+          </span>
+        </p>
+        <p className="text-green-600 font-semibold text-center text-lg">
+          ${item.price.toFixed(2)}
+        </p>
       </div>
+    ))}
+  </div>
+</div>
+</div>
     </div>
   );
 };
