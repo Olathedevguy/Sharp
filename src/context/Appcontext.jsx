@@ -38,6 +38,7 @@ export const GlobalContext = createContext();
   const [itemDesc, setItemDesc] = useState("");
   const [imgUpload, setImgUpload] = useState(null);
   const [uploadList, setUploadItems] = useState([]);
+  const [shoeType, setShoeType] = useState('')
 
   // Fetch items from Firestore
   const getUploadList = async () => {
@@ -126,7 +127,8 @@ export const GlobalContext = createContext();
     getUserList,
     getUploadList,
     uploadList,
-    deleteItem
+    deleteItem,
+    shoeType, setShoeType
   };
 
   return (
