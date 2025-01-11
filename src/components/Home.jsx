@@ -10,6 +10,7 @@ import { ChevronDown, ZapIcon } from "lucide-react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../config/Firebase";
 import { GlobalContext } from "../context/Appcontext";
+import { useAuth } from "../hooks/useAuth";
 
 const Home = () => {
   let settings = {
@@ -33,6 +34,9 @@ const Home = () => {
   useEffect(() => {
     getUploadList();
   }, [getUploadList]);
+
+  const {user} = useAuth()
+  // console.log(user)
 
   return (
     <div className="">
@@ -90,30 +94,41 @@ const Home = () => {
           <p className="font-semibold text-lg items-left mb-1">EXPLORE ALL</p>
           <div className="relative md:visible invisible">
             <Slider {...settings}>
-              <Cards />
-              <Cards />
-              <Cards />
-              <Cards />
-              <Cards />
-              <Cards />
-              <Cards />
-              <Cards />
-              <Cards />
-              <Cards />
-              <Cards />
-              <Cards />
-              <Cards />
-              <Cards />
+            {uploadList.length > 0 ? (
+                uploadList.map((item) => {
+                  return (
+                    <Cards
+                      key={item.id}
+                      name={item.name}
+                      price={item.price}
+                      // description={item.description}
+                      imageUrl={item.imageUrl}
+                    />
+                  );
+                })
+              ) : (
+                <p>no items available</p>
+              )}
             </Slider>
           </div>
 
           <div className="mx-auto relative md:hidden visible w-[65vw]">
             <Slider {...settings2}>
-              <Cards />
-              <Cards />
-              <Cards />
-              <Cards />
-              <Cards />
+            {uploadList.length > 0 ? (
+                uploadList.map((item) => {
+                  return (
+                    <Cards
+                      key={item.id}
+                      name={item.name}
+                      price={item.price}
+                      // description={item.description}
+                      imageUrl={item.imageUrl}
+                    />
+                  );
+                })
+              ) : (
+                <p>no items available</p>
+              )}
             </Slider>
           </div>
 

@@ -181,11 +181,11 @@ const Upload = () => {
             </button>
           </div>
 
-          <div className="flex md:flex-row flex-col justify-between">
+          <div className="flex md:flex-row flex-col justify-between mb-10">
             <p className="font-bold text-lg text-black">Uploaded Products</p>
             {isFetching ?<div className="flex items-center gap-2">
               <p><span className="loader"></span></p>
-              <p>chillax, it&apos;s fetching bro...</p>
+              <p className="text-sm">chillax, it&apos;s fetching bro...</p>
             </div> : ''}
           </div>
 
@@ -203,6 +203,7 @@ const Upload = () => {
                     {show ? "show less" : "show more"}
                   </span>
                 </p>
+                <p className="text-sm text-center">Brand: {item.filter}</p>
                 <p className="text-green-600 font-semibold text-center text-lg">${item.price.toFixed(2)}</p>
                 <button
                   onClick={() => deleteItem(item.id)}

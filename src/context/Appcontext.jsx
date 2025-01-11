@@ -12,6 +12,7 @@ export const GlobalContext = createContext();
   const [loadingState, setLoadingState] = useState(false);
   const [userList, setUserList] = useState([]);
   const userCollectionRef = collection(db, "users");
+  const [authSuccess, setAuthSuccess]  = useState(false)
 
   // Function to fetch the user list
   const getUserList = async () => {
@@ -128,7 +129,8 @@ export const GlobalContext = createContext();
     getUploadList,
     uploadList,
     deleteItem,
-    shoeType, setShoeType
+    shoeType, setShoeType,
+    authSuccess, setAuthSuccess
   };
 
   return (

@@ -10,6 +10,7 @@ import Upload from './components/admin/Upload'
 import Setting from './components/admin/Setting'
 import AdminAuthPage from './components/admin/AdminAuthPage'
 import Test from './test/Test.jsx'
+import Cart from './components/Cart.jsx'
 
 const App = () => {
 
@@ -54,6 +55,7 @@ const App = () => {
         <Route path='/admin/settings' element={<Setting />}/>
         <Route path='/admin/auth' element={<AdminAuthPage isAdminLoginSuccessful={isAdminLoginSuccessful} handleAdminSuccess={handleAdminSuccess}/>} />
         <Route path='/test' element={<Test />} />
+        <Route path='/cart' element={<Cart />} />
       </Routes>
 
     </div> 

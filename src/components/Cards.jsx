@@ -17,7 +17,6 @@ const Cards = ({name, price, description, imageUrl}) => {
         <button  onMouseEnter={()=>setHover(true)}
                           onMouseLeave={()=>setHover(false)}
                           className="border border-black py-1 px-2 rounded-[4px] flex bg-black text-white text-center items-center hover:bg-white hover:text-black custom-transition">
-          {hover? <p className="text-sm slide-out  duration-300">Add to cart</p>:''}
           <LucideShoppingCart  size={20}/>
         </button>
       </div>
