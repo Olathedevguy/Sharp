@@ -3,6 +3,7 @@ import { useContext, useEffect, useState, createContext } from "react";
 import { db, storage } from "../config/Firebase";
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 // Step 1: Create the GlobalContext
 export const GlobalContext = createContext();
@@ -114,12 +115,84 @@ export const GlobalContext = createContext();
     }
   }
 
-  // Fetch items on component mount
+const [cartItems, setCartItems] = useState([])
+const cartCollectionRef =collection(db, "carts")
+const [userId, setUserId] = useState(null)
+
+useEffect(()=>{
+  const auth = getAuth()
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setUserId(user.uid); // Sets the authenticated user's ID
+    } else {
+      setUserId(null); // Resets the userId when the user logs out
+    }
+  });
+
+  return () => unsubscribe();
+})
+
+const fetchCartItems = async () => {
+  if (!userId) return;
+
+  try {
+    const data = await getDocs(cartCollectionRef);
+    const filteredCartItems = data.docs
+      .map((doc) => ({ ...doc.data(), id: doc.id }))
+      .filter((item) => item.userId === userId);
+
+    setCartItems(filteredCartItems);
+  } catch (error) {
+    console.error("Error fetching cart items:", error);
+  }
+};
+
+  //add to cart
+  const addToCart = async (item)=>{
+    if(!userId) {
+      alert('You must be logged in to add ')
+      
+      return;
+}
+    try {
+      setIsLoading(true)
+      await addDoc(cartCollectionRef, {
+        userId,
+        item,
+        quantity: 1,
+        addAt: new Date()
+      })
+
+      setCartItems((prev)=>[...prev, {userId, item, quantity: 1, addedAt: new Date()}])
+
+      alert('Item added to cart successfully')
+    } catch (error) {
+      alert('error, item not added to cart', error)
+    }
+  }
+
+  const removeFromCart = async (cartItemId) => {
+    try {
+      const docRef = doc(db, "carts", cartItemId);
+      await deleteDoc(docRef);
+
+      // Update local state
+      setCartItems((prev) => prev.filter((item) => item.id !== cartItemId));
+
+      console.log("Item removed from cart successfully!");
+    } catch (error) {
+      console.error("Error removing from cart:", error);
+    }
+  };
  
   useEffect(() => {
     getUserList();
     getUploadList();
   }, []);
+
+  useEffect(()=>{
+    fetchCartItems()
+  },[userId])
 
  
   const value = {
@@ -130,7 +203,12 @@ export const GlobalContext = createContext();
     uploadList,
     deleteItem,
     shoeType, setShoeType,
-    authSuccess, setAuthSuccess
+    authSuccess, setAuthSuccess,
+    userId,
+    cartItems,
+    addToCart,
+    removeFromCart,
+    fetchCartItems,
   };
 
   return (

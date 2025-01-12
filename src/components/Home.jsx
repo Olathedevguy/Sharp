@@ -102,7 +102,9 @@ const Home = () => {
                       name={item.name}
                       price={item.price}
                       // description={item.description}
+                      category={item.filter}
                       imageUrl={item.imageUrl}
+                      item={item}
                     />
                   );
                 })
@@ -122,7 +124,9 @@ const Home = () => {
                       name={item.name}
                       price={item.price}
                       // description={item.description}
+                      category={item.filter}
                       imageUrl={item.imageUrl}
+                      item = {item}
                     />
                   );
                 })
@@ -161,7 +165,9 @@ const Home = () => {
                       name={item.name}
                       price={item.price}
                       // description={item.description}
+                      filter={item.filter}
                       imageUrl={item.imageUrl}
+                      item={item}
                     />
                   );
                 })

@@ -5,7 +5,7 @@ import { GlobalContext } from '../context/Appcontext';
 import { ShoppingCart, User2 } from 'lucide-react';
 
 const Navbar = () => {
-  const { authSuccess } = useContext(GlobalContext);
+  const { authSuccess, cartItems } = useContext(GlobalContext);
 
   console.log("Navbar Auth Success:", authSuccess);
 
@@ -23,7 +23,7 @@ const Navbar = () => {
             <Link to='/account'><User2 /></Link>
             <div className='relative'>
               <Link to='/cart'><ShoppingCart /></Link>
-              <div className='bg-black text-white rounded-full items-center text-center text-sm absolute z-10 -top-[10px] '>0</div>
+              <div className='bg-black text-white rounded-full items-center text-center text-sm absolute z-10 -top-[10px] px-2'>{cartItems.length}</div>
             </div>
             
           </div>
