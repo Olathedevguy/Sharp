@@ -4,6 +4,7 @@ import { db, storage } from "../config/Firebase";
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { ToastContainer, toast } from 'react-toastify';
 
 // Step 1: Create the GlobalContext
 export const GlobalContext = createContext();
@@ -165,9 +166,10 @@ const fetchCartItems = async () => {
 
       setCartItems((prev)=>[...prev, {userId, item, quantity: 1, addedAt: new Date()}])
 
-      alert('Item added to cart successfully')
+      // alert('Item added to cart successfully')
+      toast.success('Add to cart successfully')
     } catch (error) {
-      alert('error, item not added to cart', error)
+      // alert('error, item not added to cart', error)
     }
   }
 
@@ -193,6 +195,7 @@ const fetchCartItems = async () => {
   useEffect(()=>{
     fetchCartItems()
   },[userId])
+
 
  
   const value = {

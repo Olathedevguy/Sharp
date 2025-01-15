@@ -11,6 +11,9 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../config/Firebase";
 import { GlobalContext } from "../context/Appcontext";
 import { useAuth } from "../hooks/useAuth";
+import Footer from "./Footer";
+import PopupAuth from "./PopupAuth";
+import { ToastContainer } from "react-toastify";
 
 const Home = () => {
   let settings = {
@@ -29,7 +32,7 @@ const Home = () => {
     slidesToScroll: 1,
   };
 
-  const { uploadList, getUploadList } = useContext(GlobalContext);
+  const { uploadList, getUploadList, toast, showToast } = useContext(GlobalContext);
 
   useEffect(() => {
     getUploadList();
@@ -42,10 +45,12 @@ const Home = () => {
     <div className="">
       {/* <Auth  /> */}
       {/* <Navbar  /> */}
-
+      <PopupAuth />
+    
       <div
         className={`bg-custom-image bg-cover bg-center h-[105vh] w-full flex items-left`}>
         <div className="lg:pt-[400px] md:pt-[700px] pt-[450px] pl-20 item md:bg-transparent bg-slate-100 md:bg-opacity-0 bg-opacity-30">
+        <ToastContainer />
           <h1 className="text-xl text-[#1E1E1E] mb-3">
             <span className="font-semibold text-[50px]">JUST DO IT,</span> the
             way you like
@@ -92,7 +97,7 @@ const Home = () => {
 
         <div className="mt-20 mb-20">
           <p className="font-semibold text-lg items-left mb-1">EXPLORE ALL</p>
-          <div className="relative md:visible invisible">
+          <div className="relative md:visible hidden">
             <Slider {...settings}>
             {uploadList.length > 0 ? (
                 uploadList.map((item) => {
@@ -114,7 +119,7 @@ const Home = () => {
             </Slider>
           </div>
 
-          <div className="mx-auto relative md:hidden visible w-[65vw]">
+          <div className="mx-auto items-center  relative md:hidden visible w-[70vw]">
             <Slider {...settings2}>
             {uploadList.length > 0 ? (
                 uploadList.map((item) => {
@@ -219,6 +224,7 @@ const Home = () => {
           </div>
         </section>
       </div>
+      <Footer />
     </div>
   );
 };

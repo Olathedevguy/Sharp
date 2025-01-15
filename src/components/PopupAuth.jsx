@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react";
-import { images } from "../assets/asset";
+import React, { useEffect, useState, useContext } from "react";
 import { auth, googleprovider, db } from "../config/Firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { InfinitySpin } from "react-loader-spinner";
 import { setDoc, doc } from "firebase/firestore";
@@ -13,13 +13,27 @@ import { GlobalContext } from "../context/Appcontext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Auth = () => {
+const PopupAuth = () => {
   const navigate = useNavigate();
+  const { setAuthSuccess } = useContext(GlobalContext);
+  const [isPopupOpen, setIsPopupOpen] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { setAuthSuccess } = useContext(GlobalContext);
   const [newUser, setNewUser] = useState(false);
+
+  // Check if user is already signed in
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAuthSuccess(true);
+        setIsPopupOpen(false);
+        navigate("/"); // Redirect to home or desired route
+      }
+    });
+
+    return () => unsubscribe();
+  }, [auth, navigate, setAuthSuccess]);
 
   const storeUserData = async (user) => {
     const userData = { userId: user.uid, email: user.email, role: "user" };
@@ -43,6 +57,7 @@ const Auth = () => {
       setAuthSuccess(true);
       setEmail("");
       setPassword("");
+      setIsPopupOpen(false);
       navigate("/");
       toast.success(isSignUp ? "Account created successfully!" : "Welcome back!");
     } catch (error) {
@@ -61,6 +76,7 @@ const Auth = () => {
       const user = userCredential.user;
       await storeUserData(user);
       setAuthSuccess(true);
+      setIsPopupOpen(false);
       navigate("/");
       toast.success("Login successful!");
     } catch (error) {
@@ -72,20 +88,23 @@ const Auth = () => {
     }
   };
 
+  if (!isPopupOpen) return null;
+
   return (
-    <div className="flex items-center justify-center bg-custom-image2 min-h-screen px-4">
-      
-      <div className="flex flex-col md:flex-row items-center bg-white rounded-xl p-6 md:p-12 gap-8">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <ToastContainer />
-        <div className="w-full md:w-1/2">
-          <img
-            className="rounded-xl w-full"
-            src={images.authpageImg2}
-            alt="Authentication Page"
-          />
-        </div>
-        <div className="w-full md:w-1/2 flex flex-col gap-6">
-          <div className="flex flex-col gap-4">
+      <div className="bg-white rounded-lg p-6 w-full max-w-md">
+        <button
+          className="absolute top-4 right-4 text-gray-600 hover:text-black"
+          onClick={() => setIsPopupOpen(false)}
+        >
+          &times;
+        </button>
+        <h2 className="text-xl font-bold text-center mb-4">
+          {newUser ? "Sign Up" : "Log In"}
+        </h2>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col">
             <label htmlFor="email" className="font-medium">
               Email
             </label>
@@ -93,13 +112,12 @@ const Auth = () => {
               id="email"
               type="email"
               placeholder="Enter your email"
-              className="border rounded-md py-3 px-4 w-full"
+              className="border rounded-md py-2 px-3 w-full"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              aria-label="Enter your email"
             />
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col">
             <label htmlFor="password" className="font-medium">
               Password
             </label>
@@ -107,23 +125,21 @@ const Auth = () => {
               id="password"
               type="password"
               placeholder="Enter your password"
-              className="border rounded-md py-3 px-4 w-full"
+              className="border rounded-md py-2 px-3 w-full"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              aria-label="Enter your password"
             />
           </div>
           <button
             onClick={() => handleAuth(newUser)}
-            className="bg-black text-white py-3 rounded-md w-full"
+            className="bg-black text-white py-2 rounded-md w-full"
             disabled={isLoading}
-            aria-label={newUser ? "Sign up" : "Log in"}
           >
             {isLoading ? <InfinitySpin width="50" color="#fff" /> : newUser ? "Join" : "Login"}
           </button>
           <button
             onClick={signInWithGoogle}
-            className="border border-black py-3 rounded-md w-full"
+            className="border border-black py-2 rounded-md w-full"
           >
             Sign in with Google
           </button>
@@ -131,9 +147,9 @@ const Auth = () => {
             {newUser ? "Already have an account?" : "New User?"}{" "}
             <span
               onClick={() => setNewUser(!newUser)}
-              className="underline cursor-pointer text-blue-600"
+              className="text-blue-500 cursor-pointer"
             >
-              {newUser ? "Sign in" : "Sign up"}
+              {newUser ? "Log In" : "Sign Up"}
             </span>
           </p>
         </div>
@@ -142,4 +158,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default PopupAuth;
