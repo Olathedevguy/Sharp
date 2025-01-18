@@ -181,9 +181,9 @@ const fetchCartItems = async () => {
       // Update local state
       setCartItems((prev) => prev.filter((item) => item.id !== cartItemId));
 
-      console.log("Item removed from cart successfully!");
+      toast.success("Removed successfully!");
     } catch (error) {
-      console.error("Error removing from cart:", error);
+      toast.error("Error removing from cart:");
     }
   };
  

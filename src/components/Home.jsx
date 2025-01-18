@@ -46,11 +46,12 @@ const Home = () => {
       {/* <Auth  /> */}
       {/* <Navbar  /> */}
       <PopupAuth />
-    
+      <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
       <div
         className={`bg-custom-image bg-cover bg-center h-[105vh] w-full flex items-left`}>
+          
         <div className="lg:pt-[400px] md:pt-[700px] pt-[450px] pl-20 item md:bg-transparent bg-slate-100 md:bg-opacity-0 bg-opacity-30">
-        <ToastContainer />
+        
           <h1 className="text-xl text-[#1E1E1E] mb-3">
             <span className="font-semibold text-[50px]">JUST DO IT,</span> the
             way you like
@@ -68,7 +69,7 @@ const Home = () => {
         </div> */}
       </div>
 
-      <div className="md:px-[100px] px-10">
+      <div className="md:px-[100px] px-10 mb-[220px] ">
         <div className="flex items-center justify-center">
           <div>
             <img className="w-[300px]" src={images.aesth_1} alt="" />

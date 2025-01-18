@@ -2,6 +2,7 @@ import { ArrowUpFromDot, LucideShoppingCart } from "lucide-react";
 import { images } from "../assets/asset";
 import { useContext, useState } from "react";
 import { GlobalContext } from "../context/Appcontext";
+import { toast } from "react-toastify";
 
 const Cards = ({name, price, description, filter, imageUrl, item}) => {
 

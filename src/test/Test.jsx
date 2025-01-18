@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { RingLoader } from "react-spinners";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -22,6 +23,8 @@ const Test = () => {
         <button onClick={handleSuccess}>Show Success</button>
         <button onClick={handleError}>Show Error</button>
       </div>
+
+      <RingLoader size={25}/>
     </div>
   );
 };

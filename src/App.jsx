@@ -11,6 +11,7 @@ import Setting from './components/admin/Setting'
 import AdminAuthPage from './components/admin/AdminAuthPage'
 import Test from './test/Test.jsx'
 import Cart from './components/Cart.jsx'
+import { ToastContainer } from 'react-toastify'
 
 const App = () => {
 
@@ -41,7 +42,7 @@ const App = () => {
         displayNav()
       }
  
- 
+ <ToastContainer />
 
       
       

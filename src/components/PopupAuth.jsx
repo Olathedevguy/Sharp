@@ -12,6 +12,8 @@ import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "../context/Appcontext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { LucideEye, LucideEyeOff, X } from "lucide-react";
+import { RingLoader } from "react-spinners";
 
 const PopupAuth = () => {
   const navigate = useNavigate();
@@ -21,6 +23,7 @@ const PopupAuth = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [newUser, setNewUser] = useState(false);
+  const [showPwd, setShowPwd] = useState(false)
 
   // Check if user is already signed in
   useEffect(() => {
@@ -88,18 +91,25 @@ const PopupAuth = () => {
     }
   };
 
+  const handleShowPwd = ()=>{
+    setShowPwd(!showPwd)
+  }
+
   if (!isPopupOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <ToastContainer />
-      <div className="bg-white rounded-lg p-6 w-full max-w-md">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ">
+      <ToastContainer position="top-center" autoClose={3000} hideProgressBar stacked/>
+      {/* <div className="text-white bg-black p-2"><X/></div> */}
+      <div className="bg-white rounded-lg p-6 w-full max-w-md ">
+        
         <button
-          className="absolute top-4 right-4 text-gray-600 hover:text-black"
+          className="absolute shadow-lg  top-[140px] right-[500px] text-gray-200 text-xl hover:text-gray-300"
           onClick={() => setIsPopupOpen(false)}
         >
-          &times;
+          <X/>
         </button>
+        <div>
         <h2 className="text-xl font-bold text-center mb-4">
           {newUser ? "Sign Up" : "Log In"}
         </h2>
@@ -114,6 +124,7 @@ const PopupAuth = () => {
               placeholder="Enter your email"
               className="border rounded-md py-2 px-3 w-full"
               value={email}
+              autoFocus
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -121,22 +132,36 @@ const PopupAuth = () => {
             <label htmlFor="password" className="font-medium">
               Password
             </label>
+
+            {/* password section */}
+            <div className="relative">
             <input
               id="password"
-              type="password"
+              type={showPwd ? 'text':'password'}
               placeholder="Enter your password"
               className="border rounded-md py-2 px-3 w-full"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            <button onClick={handleShowPwd} className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-blue-500 focus:outline-none">{showPwd?<LucideEye/>:<LucideEyeOff/>}</button>
+             </div>
+             {/* password section */}
+
           </div>
           <button
-            onClick={() => handleAuth(newUser)}
-            className="bg-black text-white py-2 rounded-md w-full"
-            disabled={isLoading}
-          >
-            {isLoading ? <InfinitySpin width="50" color="#fff" /> : newUser ? "Join" : "Login"}
-          </button>
+  onClick={() => handleAuth(newUser)}
+  className="bg-black text-white py-2 rounded-md w-full flex justify-center items-center"
+  disabled={isLoading}
+>
+  {isLoading ? (
+    <RingLoader size={25} color="#ffffff" />
+  ) : (
+    newUser ? "Join" : "Login"
+  )}
+</button>
+
+
+
           <button
             onClick={signInWithGoogle}
             className="border border-black py-2 rounded-md w-full"
@@ -153,7 +178,9 @@ const PopupAuth = () => {
             </span>
           </p>
         </div>
+        </div>
       </div>
+    
     </div>
   );
 };

@@ -32,6 +32,8 @@ import cab from './cart-arrow-black.png'
 import caw from './cart-arrow-white.png'
 import bannerMobile from './banner-mobile.png'
 import Xicon from './simple-icons_x.svg'
+import emptyCart from './undraw_empty-cart_574u.svg'
+import emptyCartAlt from './396946954_11518396.svg'
 
 export const images = {
     authPageImg,
@@ -62,7 +64,9 @@ export const images = {
     cab,
     caw,
     bannerMobile,
-    Xicon
+    Xicon,
+    emptyCart,
+    emptyCartAlt
 }
 
 export const details = [
