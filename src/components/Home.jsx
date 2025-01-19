@@ -98,7 +98,7 @@ const Home = () => {
 
         <div className="mt-20 mb-20">
           <p className="font-semibold text-lg items-left mb-1">EXPLORE ALL</p>
-          <div className="relative md:visible hidden">
+          <div className="relative md:block sm:hidden">
             <Slider {...settings}>
             {uploadList.length > 0 ? (
                 uploadList.map((item) => {
@@ -120,7 +120,7 @@ const Home = () => {
             </Slider>
           </div>
 
-          <div className="mx-auto items-center  relative md:hidden visible w-[70vw]">
+          <div className="mx-auto items-center  relative md:hidden block w-[70vw]">
             <Slider {...settings2}>
             {uploadList.length > 0 ? (
                 uploadList.map((item) => {

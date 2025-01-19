@@ -12,6 +12,7 @@ import AdminAuthPage from './components/admin/AdminAuthPage'
 import Test from './test/Test.jsx'
 import Cart from './components/Cart.jsx'
 import { ToastContainer } from 'react-toastify'
+import ProductPage from './components/ProductPage.jsx'
 
 const App = () => {
 
@@ -57,6 +58,7 @@ const App = () => {
         <Route path='/admin/auth' element={<AdminAuthPage isAdminLoginSuccessful={isAdminLoginSuccessful} handleAdminSuccess={handleAdminSuccess}/>} />
         <Route path='/test' element={<Test />} />
         <Route path='/cart' element={<Cart />} />
+        <Route path='/product/:id' element={<ProductPage />} />
       </Routes>
 
     </div> 
