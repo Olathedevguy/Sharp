@@ -101,9 +101,14 @@ const PopupAuth = () => {
   return (
 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
   <ToastContainer position="top-center" autoClose={3000} hideProgressBar stacked />
-  
+  <button
+        className="absolute md:top-4 top-2 right-4 text-gray-400 hover:text-gray-600"
+        onClick={() => setIsPopupOpen(false)}
+      >
+        <X />
+      </button>
   <div 
-    className="bg-white rounded-lg p-4 md:p-6 w-[90%] sm:w-[95%] max-w-4xl flex flex-col md:flex-row gap-6 overflow-auto"
+    className="bg-white rounded-lg p-4 md:p-6 w-[90%] sm:w-[95%] max-w-4xl flex flex-col md:flex-row gap-6 overflow-auto md:items-center"
     style={{ maxHeight: "90vh" }}
   >
     {/* Video Section */}
@@ -119,17 +124,12 @@ const PopupAuth = () => {
     </div>
 
     {/* Form Section */}
-    <div className="flex-1 relative">
-      <button
-        className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
-        onClick={() => setIsPopupOpen(false)}
-      >
-        <X />
-      </button>
+    <div className="flex-1 relative ">
+
       <h2 className="text-xl font-bold text-center mb-4">
         {newUser ? "Sign Up" : "Log In"}
       </h2>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 ">
         <div className="flex flex-col">
           <label htmlFor="email" className="font-medium">
             Email

@@ -32,13 +32,14 @@ const Home = () => {
     slidesToScroll: 1,
   };
 
-  const { uploadList, getUploadList, toast, showToast } = useContext(GlobalContext);
+  const { uploadList, getUploadList, toast, showToast } =
+    useContext(GlobalContext);
 
   useEffect(() => {
     getUploadList();
   }, [getUploadList]);
 
-  const {user} = useAuth()
+  const { user } = useAuth();
   // console.log(user)
 
   return (
@@ -49,9 +50,7 @@ const Home = () => {
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
       <div
         className={`bg-custom-image bg-cover bg-center h-[105vh] w-full flex items-left`}>
-          
         <div className="lg:pt-[400px] md:pt-[700px] pt-[450px] pl-20 item md:bg-transparent bg-slate-100 md:bg-opacity-0 bg-opacity-30">
-        
           <h1 className="text-xl text-[#1E1E1E] mb-3">
             <span className="font-semibold text-[50px]">JUST DO IT,</span> the
             way you like
@@ -98,16 +97,15 @@ const Home = () => {
 
         <div className="mt-20 mb-20">
           <p className="font-semibold text-lg items-left mb-1">EXPLORE ALL</p>
-          <div className="relative md:block sm:hidden my-6">
+          <div className="relative md:block hidden my-6">
             <Slider {...settings}>
-            {uploadList.length > 0 ? (
+              {uploadList.length > 0 ? (
                 uploadList.map((item) => {
                   return (
                     <Cards
                       key={item.id}
                       name={item.name}
                       price={item.price}
-                      // description={item.description}
                       category={item.filter}
                       imageUrl={item.imageUrl}
                       item={item}
@@ -120,19 +118,18 @@ const Home = () => {
             </Slider>
           </div>
 
-          <div className="mx-auto items-center  relative md:hidden block w-[70vw]">
+          <div className="mx-auto items-center relative block md:hidden w-[70vw]">
             <Slider {...settings2}>
-            {uploadList.length > 0 ? (
+              {uploadList.length > 0 ? (
                 uploadList.map((item) => {
                   return (
                     <Cards
                       key={item.id}
                       name={item.name}
                       price={item.price}
-                      // description={item.description}
                       category={item.filter}
                       imageUrl={item.imageUrl}
-                      item = {item}
+                      item={item}
                     />
                   );
                 })
