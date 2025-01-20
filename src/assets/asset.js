@@ -34,6 +34,7 @@ import bannerMobile from './banner-mobile.png'
 import Xicon from './simple-icons_x.svg'
 import emptyCart from './undraw_empty-cart_574u.svg'
 import emptyCartAlt from './396946954_11518396.svg'
+import nikeVideo from './WhatsApp Video 2025-01-19 at 15.00.12_1c3641d5.mp4'
 
 export const images = {
     authPageImg,
@@ -67,6 +68,10 @@ export const images = {
     Xicon,
     emptyCart,
     emptyCartAlt
+}
+
+export const videos ={
+    nikeVideo
 }
 
 export const details = [

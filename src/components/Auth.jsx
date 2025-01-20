@@ -12,6 +12,9 @@ import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "../context/Appcontext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { LucideEye, LucideEyeOff } from "lucide-react";
+import BackButton from "./BackButton";
+import Footer from "./Footer";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -20,6 +23,7 @@ const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { setAuthSuccess } = useContext(GlobalContext);
   const [newUser, setNewUser] = useState(false);
+  const [showPwd, setShowPwd] = useState(false)
 
   const storeUserData = async (user) => {
     const userData = { userId: user.uid, email: user.email, role: "user" };
@@ -72,11 +76,16 @@ const Auth = () => {
     }
   };
 
+  const handleShowPwd = ()=>{
+    setShowPwd(!showPwd)
+  }
+
   return (
-    <div className="flex items-center justify-center bg-custom-image2 min-h-screen px-4">
+    <div className="bg-custom-image2 ">
+    <div className="flex items-center justify-center min-h-screen px-4">
       
       <div className="flex flex-col md:flex-row items-center bg-white rounded-xl p-6 md:p-12 gap-8">
-      <ToastContainer />
+      <ToastContainer position="top-center" hideProgressBar/>
         <div className="w-full md:w-1/2">
           <img
             className="rounded-xl w-full"
@@ -103,15 +112,17 @@ const Auth = () => {
             <label htmlFor="password" className="font-medium">
               Password
             </label>
+            <div className="relative">
             <input
               id="password"
-              type="password"
+              type={showPwd ? 'text':'password'}
               placeholder="Enter your password"
-              className="border rounded-md py-3 px-4 w-full"
+              className="border rounded-md py-2 px-3 w-full"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              aria-label="Enter your password"
             />
+            <button onClick={handleShowPwd} className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-blue-500 focus:outline-none">{showPwd?<LucideEye/>:<LucideEyeOff/>}</button>
+             </div>
           </div>
           <button
             onClick={() => handleAuth(newUser)}
@@ -138,6 +149,8 @@ const Auth = () => {
           </p>
         </div>
       </div>
+    </div>
+    <Footer/>
     </div>
   );
 };

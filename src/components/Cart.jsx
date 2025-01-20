@@ -20,6 +20,10 @@ const Cart = () => {
     0
   );
 
+  const formatNumberWithCommas =(number)=> {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
   return (
     <>
       {/* Back Button */}
@@ -30,7 +34,7 @@ const Cart = () => {
         {/* Cart Items Section */}
         <div className="flex flex-col gap-4 md:w-[60vw] w-full items-center">
           {cartItems.length === 0 ? (
-            <div className="text-center">
+            <div className="text-center items-center">
                 <div className="w-[200px]">
                 <img src={images.emptyCartAlt} alt="" className="w-[]"/>
                 </div>
@@ -77,7 +81,7 @@ const Cart = () => {
         <div className="border flex flex-col justify-center items-center h-fit py-4 px-4 rounded-md shadow-md">
           <div className="flex justify-between items-center w-full">
             <p className="font-regular text-lg">Total</p>
-            <p className="font-semibold text-2xl">${totalPrice.toFixed(2)}</p>
+            <p className="font-semibold text-2xl">₦{formatNumberWithCommas(totalPrice.toFixed(2))}</p>
           </div>
           <hr className="my-4 w-full bg-orange-500 shadow-lg" />
           <button className="bg-black text-white py-2 px-[100px] rounded-md hover:text-black hover:border hover:border-black hover:bg-transparent transition duration-500">

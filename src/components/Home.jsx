@@ -98,7 +98,7 @@ const Home = () => {
 
         <div className="mt-20 mb-20">
           <p className="font-semibold text-lg items-left mb-1">EXPLORE ALL</p>
-          <div className="relative md:block sm:hidden">
+          <div className="relative md:block sm:hidden my-6">
             <Slider {...settings}>
             {uploadList.length > 0 ? (
                 uploadList.map((item) => {
