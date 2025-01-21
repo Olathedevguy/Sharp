@@ -14,6 +14,7 @@ import { useAuth } from "../hooks/useAuth";
 import Footer from "./Footer";
 import PopupAuth from "./PopupAuth";
 import { ToastContainer } from "react-toastify";
+import { RingLoader } from "react-spinners";
 
 const Home = () => {
   let settings = {
@@ -28,8 +29,16 @@ const Home = () => {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 1,
+    slidesToShow: 1.1,
     slidesToScroll: 1,
+  };
+
+  let settings3 = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
   };
 
   const { uploadList, getUploadList, toast, showToast } =
@@ -97,47 +106,38 @@ const Home = () => {
 
         <div className="mt-20 mb-20">
           <p className="font-semibold text-lg items-left mb-1">EXPLORE ALL</p>
-          <div className="relative md:block hidden my-6">
-            <Slider {...settings}>
-              {uploadList.length > 0 ? (
-                uploadList.map((item) => {
-                  return (
-                    <Cards
-                      key={item.id}
-                      name={item.name}
-                      price={item.price}
-                      category={item.filter}
-                      imageUrl={item.imageUrl}
-                      item={item}
-                    />
-                  );
-                })
-              ) : (
-                <p>no items available</p>
-              )}
-            </Slider>
-          </div>
 
-          <div className="mx-auto items-center relative block md:hidden w-[70vw]">
-            <Slider {...settings2}>
-              {uploadList.length > 0 ? (
-                uploadList.map((item) => {
-                  return (
-                    <Cards
-                      key={item.id}
-                      name={item.name}
-                      price={item.price}
-                      category={item.filter}
-                      imageUrl={item.imageUrl}
-                      item={item}
-                    />
-                  );
-                })
-              ) : (
-                <p>no items available</p>
-              )}
-            </Slider>
-          </div>
+
+ {/* Slider for different screen sizes */}
+{['lg', 'md', 'sm'].map((screen, index) => (
+  <div
+    key={screen}
+    className={`
+      relative my-6 
+      ${screen === 'lg' ? 'hidden lg:block' : ''} 
+      ${screen === 'md' ? 'hidden md:block lg:hidden' : ''} 
+      ${screen === 'sm' ? 'block md:hidden' : ''}
+    `}
+  >
+    <Slider {...(screen === 'lg' ? settings : screen === 'md' ? settings3 : settings2)}>
+      {uploadList.length > 0 ? (
+        uploadList.map((item) => (
+          <Cards
+            key={item.id}
+            name={item.name}
+            price={item.price}
+            category={item.filter}
+            imageUrl={item.imageUrl}
+            item={item}
+          />
+        ))
+      ) : (
+        <p className="text-center text-gray-500">No items available</p>
+      )}
+    </Slider>
+  </div>
+))}
+
 
           <div className=" md:flex hidden mt-6">
             <img src={images.banner_1} alt="" />
@@ -186,41 +186,50 @@ const Home = () => {
         </div>
 
         {/* bento box */}
-        <section className="flex justify-center items-center ">
-          <div className="flex md:flex-row flex-col gap-4">
-            <div className=" flex flex-col gap-4">
-              <div className="flex md:flex-row flex-col gap-4 ">
-                <div className="bg-custom-image4 md:w-[500px] w-[300px]  h-[300px] bg-cover rounded-xl ">
-                  <p className="text-end text-white font-bold pr-5 pt-36 text-2xl">
-                    Run the day,
-                    <br /> don&apos;let it <br /> run you.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-4">
-                  <div className="bg-custom-image5 md:w-[500px] w-[300px] h-[200px] bg-cover bg-center  rounded-xl"></div>
-                  <div className="bg-[#203429] md:w-[500px] w-[300px] h-[90px]  rounded-xl items-center justify-center flex">
-                    <p className="text-center text-white font-bold text-2xl ">
-                      Waits for no one
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-custom-image7 md:w-[1016px] w-[300px] h-[300px] bg-cover bg-blend-soft-light  rounded-xl">
-                <p className="text-start md:w-[500px] w-[300px] text-white font-bold text-2xl pl-4 pt-44">
-                  Don&apos;t believe you have to be like anybody to be somebody.
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col gap-4">
-              <div className="bg-custom-image6  w-[300px] h-[400px] bg-cover  rounded-xl"></div>
-              <div className="bg-[#A6BDD3]  w-[300px] h-[200px]  rounded-xl justify-center items-center flex">
-                <p className="text-center text-white font-bold text-2xl">
-                  Just Do It! <ZapIcon color="yellow" />
-                </p>
-              </div>
-            </div>
+        <section className="flex justify-center items-center px-4">
+  <div className="flex flex-col md:flex-row gap-8 max-w-7xl w-full">
+    {/* Left Column */}
+    <div className="flex flex-col gap-8 w-full md:w-2/3">
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* Top Left Image */}
+        <div className="bg-custom-image4 w-full md:w-1/2 h-[300px] bg-cover rounded-xl flex items-end justify-end">
+          <p className="text-end  text-white font-bold pr-5 pb-5 md:pb-10 text-xl md:text-2xl leading-snug max-w-[200px] ">
+            Run the day, don&apos;t let it run you.
+          </p>
+        </div>
+        {/* Right Section in Row */}
+        <div className="flex flex-col gap-4 w-full md:w-1/2">
+          {/* Small Image */}
+          <div className="bg-custom-image5 h-[200px] bg-cover bg-center rounded-xl"></div>
+          {/* Text Box */}
+          <div className="bg-[#203429] h-[90px] rounded-xl flex items-center justify-center">
+            <p className="text-center text-white font-bold text-lg md:text-2xl">
+              Waits for no one
+            </p>
           </div>
-        </section>
+        </div>
+      </div>
+      {/* Wide Image */}
+      <div className="bg-custom-image7 w-full h-[300px] bg-cover bg-blend-soft-light rounded-xl flex items-end">
+        <p className="text-white font-bold text-xl md:text-2xl pl-4 pb-4 md:pb-10 max-w-[300px]">
+          Don&apos;t believe you have to be like anybody to be somebody.
+        </p>
+      </div>
+    </div>
+    {/* Right Column */}
+    <div className="flex flex-col gap-8 w-full md:w-1/3">
+      {/* Tall Image */}
+      <div className="bg-custom-image6 w-full h-[400px] bg-cover rounded-xl"></div>
+      {/* Bottom Text Box */}
+      <div className="bg-[#A6BDD3] w-full h-[200px] rounded-xl flex items-center justify-center">
+        <p className="text-center text-white font-bold text-lg md:text-2xl">
+          Just Do It! <ZapIcon color="yellow" />
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
       </div>
       <Footer />
     </div>
