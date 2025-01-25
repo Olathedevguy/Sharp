@@ -56,7 +56,8 @@ const Home = () => {
       {/* <Auth  /> */}
       {/* <Navbar  /> */}
       <PopupAuth />
-      <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
+
+      {/* <ToastContainer position="top-center" autoClose={3000} hideProgressBar /> */}
       <div
         className={`bg-custom-image bg-cover bg-center h-[105vh] w-full flex items-left`}>
         <div className="lg:pt-[400px] md:pt-[700px] pt-[450px] pl-20 item md:bg-transparent bg-slate-100 md:bg-opacity-0 bg-opacity-30">

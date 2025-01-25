@@ -28,7 +28,7 @@ const Cart = () => {
     <>
       {/* Back Button */}
       <BackButton />
-      <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
+ 
       {/* Content */}
       <div className="flex-grow flex md:flex-row flex-col md:justify-between justify-normal md:gap-0 gap-10 md:px-[100px] px-6 pt-[50px]">
         {/* Cart Items Section */}
@@ -48,7 +48,7 @@ const Cart = () => {
 {cartItems.map((cartItem) => (
                 <div
                   key={cartItem.id}
-                  className="flex flex-wrap md:flex-nowrap justify-between items-center shadow-md border border-gray-300 p- rounded-md"
+                  className="flex flex-wrap md:flex-nowrap justify-between items-center shadow-md border border-gray-300 p- rounded-md md:p-4 p-0"
                 >
                   <div className="flex items-center gap-4">
                     <div className="w-[80px] h-[80px]">
@@ -60,9 +60,9 @@ const Cart = () => {
                     </div>
                     <div className="flex flex-col">
                       <p className="text-lg font-medium">
-                        {cartItem.item.name} <span className="text-gray-500">x {cartItem.quantity}</span>
+                        {cartItem.item.name.length > 10 ? cartItem.item.name.slice(0,12) + "...":cartItem.item.name} <span className="text-gray-500">x {cartItem.quantity}</span>
                       </p>
-                      <p className="text-gray-700">${cartItem.item.price.toFixed(2)}</p>
+                      <p className="text-gray-700">₦{cartItem.item.price.toFixed(2)}</p>
                     </div>
                   </div>
                   <button

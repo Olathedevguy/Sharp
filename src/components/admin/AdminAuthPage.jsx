@@ -65,7 +65,7 @@ const AdminAuthPage = ({ isAdminLoginSuccessful, handleAdminSuccess }) => {
 
     return (
         <div className="flex items-center justify-center h-screen w-screen bg-custom-image3">
-            <ToastContainer position='top-center' hideProgressBar/>
+            {/* <ToastContainer position='top-center' hideProgressBar/> */}
             <div className="flex flex-col justify-center gap-6 bg-white w-[500px] h-[400px] items-center mt-28 shadow-lg rounded-lg backdrop-blur-lg bg-opacity-20 shadow-slate-600 p-6">
                 <h2 className="text-xl font-semibold">Admin Login</h2>
                 <InputField

@@ -33,9 +33,9 @@ const Navbar = () => {
   return (
     <div className='sticky top-0 bg-white shadow-lg w-full z-30'>
       <nav className='flex items-center px-10 py-4'>
-        <Link to='/menu' className='w-full'>
+        {/* <Link to='/menu' className='w-full'>
           <img className='md:max-w-[40px] max-w-[30px]' src={images.menu_icon} alt="" />
-        </Link>
+        </Link> */}
         <Link to='/' className='w-full'>
           <img className='md:max-w-[80px] max-w-[40px]' src={images.nike_icon} alt="" />
         </Link>

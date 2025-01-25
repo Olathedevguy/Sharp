@@ -17,7 +17,7 @@ const toggleMenu = () => setMenuOpen((prev) => !prev)
         {/* Logo Section */}
         <div className="mb-8">
           <div className="flex justify-center mb-4">
-            <img src={images.nike_icon} alt="Nike Icon" className="w-16 h-16" />
+            <img src={images.nike_icon} alt="Nike Icon" className="w-16" />
           </div>
         </div>
 
@@ -125,7 +125,7 @@ const toggleMenu = () => setMenuOpen((prev) => !prev)
       
       <div className="md:hidden fixed top-0 left-0 w-full bg-gray-900 z-20">
         <div className="flex justify-between items-center p-4">
-          <img src={images.nike_icon} alt="Logo" className="w-10 h-10" />
+          <img src={images.nike_icon} alt="Logo" className="w-10" />
           <button
             onClick={toggleMenu}
             className="text-white focus:outline-none"

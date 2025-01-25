@@ -100,7 +100,7 @@ const PopupAuth = () => {
 
   return (
 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-  <ToastContainer position="top-center" autoClose={3000} hideProgressBar stacked />
+  {/* <ToastContainer position="top-center" autoClose={3000} hideProgressBar stacked /> */}
   <button
         className="absolute md:top-4 top-2 right-4 text-gray-400 hover:text-gray-600"
         onClick={() => setIsPopupOpen(false)}

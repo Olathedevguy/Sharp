@@ -85,7 +85,7 @@ const Auth = () => {
     <div className="flex items-center justify-center min-h-screen px-4">
       
       <div className="flex flex-col md:flex-row items-center bg-white rounded-xl p-6 md:p-12 gap-8">
-      <ToastContainer position="top-center" hideProgressBar/>
+      {/* <ToastContainer position="top-center" hideProgressBar/> */}
         <div className="w-full md:w-1/2">
           <img
             className="rounded-xl w-full"

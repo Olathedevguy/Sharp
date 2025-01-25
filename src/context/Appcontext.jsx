@@ -168,7 +168,7 @@ const fetchCartItems = async () => {
       setCartItems((prev)=>[...prev, {userId, item, quantity: 1, addedAt: new Date()}])
 
       // alert('Item added to cart successfully')
-      toast.success('Add to cart successfully')
+      toast.success('Added to cart successfully')
     } catch (error) {
       // alert('error, item not added to cart', error)
     }

@@ -2,16 +2,21 @@ import { ArrowUpFromDot, LucideShoppingCart } from "lucide-react";
 import { images } from "../assets/asset";
 import { useContext, useState } from "react";
 import { GlobalContext } from "../context/Appcontext";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
 
 const Cards = ({name, price, description, filter, imageUrl, item}) => {
 
   const [hover, setHover] =  useState(false)
   const {addToCart} = useContext(GlobalContext)
-  const handleAddToCart = ()=>{
+  const handleAddToCart = (e)=>{
+    console.log("added to cart ")
+    e.stopPropagation(); // Prevent event from bubbling to Link
+    e.preventDefault();  // Prevent default routing behavior
     addToCart(item)
+    
   }
+  
   const formatNumberWithCommas =(number)=> {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -23,7 +28,7 @@ const Cards = ({name, price, description, filter, imageUrl, item}) => {
       <div className="w-full mt-2 px-2 flex justify-between">
         <div >
           <div className="flex items-center gap-2">
-          <p className="text-left">{ name}</p>
+          <p className="text-left">{name.length > 12 ? name.slice(0,10) + "..." : name}</p>
           <p className="text-gray-400 text-sm font-regular">{filter}</p>
           </div>
 
@@ -31,9 +36,7 @@ const Cards = ({name, price, description, filter, imageUrl, item}) => {
         </div>
         <button  onMouseEnter={()=>setHover(true)}
                           onMouseLeave={()=>setHover(false)}
-                          onClick={(e)=>{
-                            e.stopPropagation()//prevent navigation
-                            handleAddToCart()}}
+                          onClick={handleAddToCart}
                           className="border border-black py-1 px-2 rounded-[4px] flex bg-black text-white text-center items-center hover:bg-white hover:text-black custom-transition">
           <LucideShoppingCart  size={20}/>
         </button>

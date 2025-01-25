@@ -1,71 +1,140 @@
-import React, { useState } from 'react'
-import Auth from './components/Auth'
-import Navbar from './components/Navbar'
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
-import Home from './components/Home'
-import Menu from './components/Menu'
-import Admin from './components/admin/Admin'
-import Users from './components/admin/Users'
-import Upload from './components/admin/Upload'
-import Setting from './components/admin/Setting'
-import AdminAuthPage from './components/admin/AdminAuthPage'
-import Test from './test/Test.jsx'
-import Cart from './components/Cart.jsx'
-import { ToastContainer } from 'react-toastify'
-import ProductPage from './components/ProductPage.jsx'
+import React, { useState } from "react";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import Auth from "./components/Auth";
+import Navbar from "./components/Navbar";
+import Home from "./components/Home";
+import Menu from "./components/Menu";
+import Admin from "./components/admin/Admin";
+import Users from "./components/admin/Users";
+import Upload from "./components/admin/Upload";
+import Setting from "./components/admin/Setting";
+import AdminAuthPage from "./components/admin/AdminAuthPage";
+import Test from "./test/Test";
+import Cart from "./components/Cart";
+import ProductPage from "./components/ProductPage";
+import ProtectedAdminRoute from "./components/admin/protectedAdminRoute";
 
 const App = () => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isAdminLoginSuccessful, setIsAdminLoginSuccessful] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const [isPopupOpen, setIsPopupOpen] =  useState(false);
-  const [isAdminLoginSuccessful, setIsAdminLoginSuccessful] =  useState(false)
-  const navigate = useNavigate()
-  
-  const adminRoutes = ['/admin', '/admin/auth', '/admin/users', '/admin/upload', '/admin/settings', ]
+  // Define admin routes
+  const adminRoutes = [
+    "/admin",
+    "/admin/auth",
+    "/admin/users",
+    "/admin/upload",
+    "/admin/settings",
+  ];
 
+  // Display Navbar only on non-admin routes
+  const shouldDisplayNav = !adminRoutes.includes(location.pathname);
 
-  const displayNav = () =>{
-    if(!adminRoutes.includes(window.location.pathname)){
-      return <Navbar />
-    }
-  }
-
-  const handleAdminSuccess = () =>{
-    setIsAdminLoginSuccessful(true)
-    navigate('/admin')
-  }
+  // Handle admin login success
+  const handleAdminSuccess = () => {
+    setIsAdminLoginSuccessful(true);
+    navigate("/admin");
+  };
 
   return (
-    <>
-    <div className='relative scroll'>
-      {/* <Navbar /> */}
-      {/* <Auth /> */}
-      {
-        displayNav()
-      }
- 
- <ToastContainer />
+    <div className="relative scroll">
+      {/* Global Navbar */}
+      {shouldDisplayNav && <Navbar />}
 
-      
-      
+      {/* Global ToastContainer */}
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+
+      {/* App Routes */}
       <Routes>
-        <Route path='/menu' element={<Menu />}/>
-        <Route path='/' element={<Home isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen}/>}/>
-      <Route path='/signUp' element={<Auth />} />
-        <Route path = '/admin' element={isAdminLoginSuccessful ? <Admin /> : <Navigate to='/admin/auth'/> } />
-        <Route path='/admin/users' element={<Users />}/>
-        <Route path='/admin/upload' element={<Upload />}/>
-        <Route path='/admin/settings' element={<Setting />}/>
-        <Route path='/admin/auth' element={<AdminAuthPage isAdminLoginSuccessful={isAdminLoginSuccessful} handleAdminSuccess={handleAdminSuccess}/>} />
-        <Route path='/test' element={<Test />} />
-        <Route path='/cart' element={<Cart />} />
-        <Route path='/product/:id' element={<ProductPage />} />
+        <Route
+          path="/"
+          element={
+            <Home isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} />
+          }
+        />
+        <Route path="/menu" element={<Menu />} />
+        <Route path="/signUp" element={<Auth />} />
+
+        {/* admin paths to protect */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedAdminRoute
+              isAllowed={isAdminLoginSuccessful}
+              redirectTo={"/admin/auth"}>
+              <Admin />
+            </ProtectedAdminRoute>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <ProtectedAdminRoute
+              isAllowed={isAdminLoginSuccessful}
+              redirectTo={"/admin/auth"}>
+              <Users />
+            </ProtectedAdminRoute>
+          }
+        />
+        <Route
+          path="/admin/upload"
+          element={
+            <ProtectedAdminRoute
+              isAllowed={isAdminLoginSuccessful}
+              redirectTo={"/admin/auth"}>
+              <Upload />
+            </ProtectedAdminRoute>
+          }
+        />
+        <Route
+          path="/admin/settings"
+          element={
+            <ProtectedAdminRoute
+              isAllowed={isAdminLoginSuccessful}
+              redirectTo={"/admin/auth"}>
+              <Setting />
+            </ProtectedAdminRoute>
+          }
+        />
+
+        {/*end of admin routes to protect*/}
+
+        <Route
+          path="/admin/auth"
+          element={
+            <AdminAuthPage
+              isAdminLoginSuccessful={isAdminLoginSuccessful}
+              handleAdminSuccess={handleAdminSuccess}
+            />
+          }
+        />
+
+        <Route path="/test" element={<Test />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/product/:id" element={<ProductPage />} />
       </Routes>
+    </div>
+  );
+};
 
-    </div> 
-
-      </>
-   
-  )
-}
-
-export default App
+export default App;
