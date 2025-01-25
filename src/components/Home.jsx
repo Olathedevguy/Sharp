@@ -6,7 +6,7 @@ import Cards from "./Cards";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { ChevronDown, ZapIcon } from "lucide-react";
+import { ArrowRightIcon, ChevronDown, ZapIcon } from "lucide-react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../config/Firebase";
 import { GlobalContext } from "../context/Appcontext";
@@ -15,8 +15,12 @@ import Footer from "./Footer";
 import PopupAuth from "./PopupAuth";
 import { ToastContainer } from "react-toastify";
 import { RingLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+
+  const navigate = useNavigate()
+
   let settings = {
     dots: true,
     infinite: true,
@@ -188,10 +192,10 @@ const Home = () => {
 
         {/* bento box */}
         <section className="flex justify-center items-center px-4">
-  <div className="flex flex-col md:flex-row gap-8 max-w-7xl w-full">
+  <div className="flex flex-col md:flex-row gap-2 max-w-7xl w-full">
     {/* Left Column */}
-    <div className="flex flex-col gap-8 w-full md:w-2/3">
-      <div className="flex flex-col md:flex-row gap-8">
+    <div className="flex flex-col gap-2 w-full md:w-2/3">
+      <div className="flex flex-col md:flex-row gap-2">
         {/* Top Left Image */}
         <div className="bg-custom-image4 w-full md:w-1/2 h-[300px] bg-cover rounded-xl flex items-end justify-end">
           <p className="text-end  text-white font-bold pr-5 pb-5 md:pb-10 text-xl md:text-2xl leading-snug max-w-[200px] ">
@@ -199,7 +203,7 @@ const Home = () => {
           </p>
         </div>
         {/* Right Section in Row */}
-        <div className="flex flex-col gap-4 w-full md:w-1/2">
+        <div className="flex flex-col gap-2 w-full md:w-1/2">
           {/* Small Image */}
           <div className="bg-custom-image5 h-[200px] bg-cover bg-center rounded-xl"></div>
           {/* Text Box */}
@@ -211,14 +215,15 @@ const Home = () => {
         </div>
       </div>
       {/* Wide Image */}
-      <div className="bg-custom-image7 w-full h-[300px] bg-cover bg-blend-soft-light rounded-xl flex items-end">
-        <p className="text-white font-bold text-xl md:text-2xl pl-4 pb-4 md:pb-10 max-w-[300px]">
-          Don&apos;t believe you have to be like anybody to be somebody.
-        </p>
-      </div>
+      <div className="bg-custom-image7 w-full h-[300px] bg-cover bg-center bg-no-repeat rounded-xl flex items-end">
+  <p className="text-white font-bold text-xl md:text-2xl pl-4 pb-4 md:pb-10 max-w-[300px]">
+    Don&apos;t believe you have to be like anybody to be somebody.
+  </p>
+</div>
+
     </div>
     {/* Right Column */}
-    <div className="flex flex-col gap-8 w-full md:w-1/3">
+    <div className="flex flex-col gap-2 w-full md:w-1/3">
       {/* Tall Image */}
       <div className="bg-custom-image6 w-full h-[400px] bg-cover rounded-xl"></div>
       {/* Bottom Text Box */}
@@ -231,6 +236,7 @@ const Home = () => {
   </div>
 </section>
 
+<span onClick={()=>navigate("/admin/auth")} className="text-blue-500 flex underline items-center justify-center mt-9 cursor-pointer">go to admin dashboard <ArrowRightIcon/></span>
       </div>
       <Footer />
     </div>

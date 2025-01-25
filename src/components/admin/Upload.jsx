@@ -13,6 +13,7 @@ import { SparklesIcon, WandSparklesIcon } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import Footer from "../Footer";
 import { AIContext } from "../../context/AIcontext";
+import { RingLoader } from "react-spinners";
 // import run from "../../../gemini";
 
 
@@ -204,7 +205,7 @@ if(itemName != ""){
             className="bg-purple-400 hover:bg-purple-500 p-2 rounded-md text-white flex gap-2 items-center"
           >
             {isAILoading ? "Generating... " : "Generate with AI"}
-            {isAILoading ? <WandSparklesIcon /> : <SparklesIcon size={15} />}
+            {isAILoading ? <RingLoader size={20} color="white"/>: <SparklesIcon size={15} />}
           </button>
           <textarea
             className="w-full md:w-1/2 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
