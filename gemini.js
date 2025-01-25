@@ -1,13 +1,16 @@
-//import  ConfigDotenv after installing dotenv
-import { configDotenv } from "dotenv";
-configDotenv()
+/* eslint-disable no-undef */
+//import  Config after installing dotenv
+import { config } from "dotenv";
+// configDotenv()
+//  
 
 //import GoogleGenerativeAI after installing @google/generative-ai, by running [[npm install @google/generative-ai]]
 import {GoogleGenerativeAI} from "@google/generative-ai";
 
 //store apikey in .env file in root directory, 
 //call and store it like so👇
-const apiKey = process.env.VITE_GEMINI_API_KEY;
+const apiKey = "AIzaSyDPZ9v-6UgUFJFtfINdxm4yfq7spP-fgxI"
+// process.env.VITE_GEMINI_API_KEY;
 
 //throw error if api key isnt found, so you can check env wellas
 if (!apiKey) {
@@ -39,11 +42,13 @@ async function run(prompt) {
     });
 
     const result = await chatSession.sendMessage(prompt);
-    console.log(await result.response.text());
+    // console.log(await result.response.text());
+    const responseText = await result.response.text()
+    return responseText
   } catch (error) {
     console.error("Error:", error);
   }
 }
-
-// run();
+console.log(import.meta.env)
+// run(" hello gemini");
 export default run;

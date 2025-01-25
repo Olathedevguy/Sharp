@@ -2,12 +2,12 @@ import React, { useContext } from 'react'
 import SideBar from './SideBar'
 import { images } from '../../assets/asset'
 
-import { LineChart, ThumbsUp, User } from 'lucide-react'
+import { LineChart, ThumbsUp, UploadCloudIcon, User } from 'lucide-react'
 import { GlobalContext } from '../../context/Appcontext'
 
 const Admin = () => {
 
-  const {userList} = useContext(GlobalContext)
+  const {userList, uploadList} = useContext(GlobalContext)
 
   const getDate = () =>{
     const today = new Date()
@@ -38,7 +38,7 @@ const Admin = () => {
   return (
     <div className='flex gap-10'>
       <SideBar />
-      <div>
+      <div className='ml-[250px]'>
 
         <div className='mt-10 flex justify-between gap-[630px]'>
         <div>
@@ -62,25 +62,25 @@ const Admin = () => {
 
             <div className='border-t border-b flex justify-center text-center'>
               <div className='flex gap-4 justify-center text-center items-center border-r h-[90px] w-[300px]'>
-                <div className='bg-lime-500 rounded-full w-12 h-12 flex items-center justify-center'><User color='#fff'/></div>
+                <div className='bg-orange-500 rounded-full w-12 h-12 flex items-center justify-center'><User color='#fff'/></div>
                 <div>
                   <p className='text-lg'>Users</p>
                   <p className='text-xs text-gray-400'>{userList.length}</p>
                 </div>
               </div>
               <div className='flex gap-4 justify-center text-center items-center border h-[90px] w-[300px]'>
-                <div className='bg-purple-500 rounded-full w-12 h-12 flex items-center justify-center'><ThumbsUp color='#fff'/></div>
+                <div className='bg-purple-500 rounded-full w-12 h-12 flex items-center justify-center'><UploadCloudIcon color='#fff'/></div>
                 <div>
-                  <p className='text-lg'>Users</p>
-                  <p className='text-xs text-gray-400'>7</p>
+                  <p className='text-lg'>Uploads</p>
+                  <p className='text-xs text-gray-400'>{uploadList.length}</p>
                 </div>
                 
               </div>
               <div className='flex gap-4 justify-center text-center items-center border-l h-[90px] w-[300px]'>
-              <div className='bg-orange-500 rounded-full w-12 h-12 flex items-center justify-center'><User color='#fff'/></div>
+              <div className='bg-green-500 rounded-full w-12 h-12 flex items-center justify-center'><ThumbsUp color='#fff'/></div>
               <div>
-                  <p className='text-lg'>Users</p>
-                  <p className='text-xs text-gray-400'>7</p>
+                  <p className='text-lg'>Deals</p>
+                  <p className='text-xs text-gray-400'>0</p>
                 </div>
               </div>
             </div>

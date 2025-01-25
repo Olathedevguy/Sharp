@@ -23,7 +23,7 @@ const Cards = ({name, price, description, filter, imageUrl, item}) => {
       <div className="w-full mt-2 px-2 flex justify-between">
         <div >
           <div className="flex items-center gap-2">
-          <p className="text-left">{name}</p>
+          <p className="text-left">{ name}</p>
           <p className="text-gray-400 text-sm font-regular">{filter}</p>
           </div>
 

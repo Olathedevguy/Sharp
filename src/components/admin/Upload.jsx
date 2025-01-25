@@ -7,8 +7,14 @@ import { v4 } from "uuid";
 import BasicSelect from "./Select";
 import { GlobalContext } from "../../context/Appcontext";
 import { getAuth } from "firebase/auth";
-import { ColorRing, FidgetSpinner } from "react-loader-spinner";
+import { ColorRing, FidgetSpinner, Rings } from "react-loader-spinner";
 import { red } from "@mui/material/colors";
+import { SparklesIcon, WandSparklesIcon } from "lucide-react";
+import { toast, ToastContainer } from "react-toastify";
+import Footer from "../Footer";
+import { AIContext } from "../../context/AIcontext";
+// import run from "../../../gemini";
+
 
 const Upload = () => {
   const itemsCollectionRef = collection(db, "shopItems");
@@ -23,6 +29,10 @@ const Upload = () => {
   const [show, setShow] = useState(false);
   const { shoeType, setShoeType } = useContext(GlobalContext);
   const [isFetching, setIsFetching] = useState(true);
+  const [isAILoading, setIsAILoading] = useState(false)
+  const {sendQuery} = useContext(AIContext)
+  
+
 
   const auth = getAuth();
 
@@ -85,6 +95,7 @@ const Upload = () => {
           filter: shoeType,
         },
       ]);
+      toast.success("item uploaded successfully")
 
       // Reset the form
       setItemName("");
@@ -96,6 +107,7 @@ const Upload = () => {
       console.log("Item uploaded successfully!");
     } catch (error) {
       console.error("Error uploading item:", error);
+      toast.error("Error uploading item")
     } finally {
       setIsLoading(false);
     }
@@ -128,95 +140,139 @@ const Upload = () => {
     }
   };
 
+  const handleAIGeneration = async () =>{
+if(itemName != ""){
+  setIsAILoading(true)
+  try {
+   const res = await sendQuery(`write a product description for ${itemName} and don't say anything else, just the description`)
+
+   if(res){
+    setItemDesc(res)
+    toast.success('Generated Successfully')
+   } else{
+    toast.error('unable to generate , try again')
+   }
+    
+  } catch (error) {
+    setIsAILoading(false)
+    console.error("error found", error)
+    toast.error("error generating description")
+  } finally {
+    setIsAILoading(false)
+  }
+      
+}else{
+  setIsAILoading(false)
+  toast.error("Enter Product name first")
+  }}
+
   // Fetch items on component mount
   useEffect(() => {
     getUploadList();
   }, []);
 
   return (
-    <div className="flex gap-9">
-      <SideBar />
-      <div className="flex flex-col w-full p-4">
-        <div className="flex flex-col w-[1200px] p-8 bg-white rounded-lg shadow-lg">
-          <div className="flex flex-col items-center gap-6 mb-8 p-6 bg-gray-50 rounded-lg shadow-sm">
-            <h2 className="text-xl font-semibold text-gray-800">Upload New Product</h2>
-            {imgPreview && (
-              <div className="w-40 h-40 border border-gray-300 rounded-lg overflow-hidden">
-                <img className="w-full h-full object-cover" src={imgPreview} alt="Preview" />
-              </div>
-            )}
-            <input
-              className="w-full md:w-1/2 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              type="file"
-              onChange={handleImgChange}
-            />
-            <input
-              className="w-full md:w-1/2 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              type="text"
-              placeholder="Enter the product name"
-              value={itemName}
-              onChange={(e) => setItemName(e.target.value)}
-            />
-            <textarea
-              className="w-full md:w-1/2 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter product description"
-              value={itemDesc}
-              onChange={(e) => setItemDesc(e.target.value)}
-              rows="4"
-            />
-            <BasicSelect shoeType={shoeType} setShoeType={setShoeType} />
-            <input
-              className="w-full md:w-1/2 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              type="number"
-              placeholder="Enter product price"
-              value={itemPrice}
-              onChange={(e) => setItemPrice(e.target.value)}
-            />
+    <div   className="flex flex-wrap">
+  <ToastContainer hideProgressBar position="top-center" />
+    <SideBar />
+
+  <div className="flex flex-col md:w-full w-full p-4 md:ml-[200px] ml-0 md:mt-0 mt-20">
+    <div className="flex flex-col w-full max-w-[1200px] p-4 bg-white rounded-lg shadow-lg mx-auto">
+      <div className="flex flex-col items-center gap-6 mb-8 p-6 bg-gray-50 rounded-lg shadow-sm">
+        <h2 className="text-lg md:text-xl font-semibold text-gray-800">Upload New Product</h2>
+        {imgPreview && (
+          <div className="w-32 h-32 md:w-40 md:h-40 border border-gray-300 rounded-lg overflow-hidden">
+            <img className="w-full h-full object-cover" src={imgPreview} alt="Preview" />
+          </div>
+        )}
+        <input
+          className="w-full md:w-1/2 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="file"
+          onChange={handleImgChange}
+        />
+        <input
+          className="w-full md:w-1/2 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="text"
+          placeholder="Enter the product name"
+          value={itemName}
+          onChange={(e) => setItemName(e.target.value)}
+        />
+        <BasicSelect shoeType={shoeType} setShoeType={setShoeType} />
+        <div className="flex flex-col w-full items-center justify-center gap-2">
+          <button
+            onClick={() => handleAIGeneration()}
+            className="bg-purple-400 hover:bg-purple-500 p-2 rounded-md text-white flex gap-2 items-center"
+          >
+            {isAILoading ? "Generating... " : "Generate with AI"}
+            {isAILoading ? <WandSparklesIcon /> : <SparklesIcon size={15} />}
+          </button>
+          <textarea
+            className="w-full md:w-1/2 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter product description"
+            value={itemDesc}
+            onChange={(e) => setItemDesc(e.target.value)}
+            rows="4"
+          />
+        </div>
+        <input
+          className="w-full md:w-1/2 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="number"
+          placeholder="Enter product price"
+          value={itemPrice}
+          onChange={(e) => setItemPrice(e.target.value)}
+        />
+        <button
+          className="w-full md:w-1/2 bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition duration-200 ease-in-out disabled:bg-gray-400 disabled:cursor-not-allowed"
+          onClick={uploadAll}
+          disabled={isLoading}
+        >
+          {isLoading ? "Uploading..." : "Upload"}
+        </button>
+      </div>
+      <div className="flex md:flex-row flex-col justify-between items-center mb-6">
+        <p className="font-bold text-lg text-black">Uploaded Products</p>
+        {isFetching && (
+          <div className="flex items-center gap-2">
+            <p>
+              <span className="loader"></span>
+            </p>
+            <p className="text-sm">chillax, it&apos;s fetching bro...</p>
+          </div>
+        )}
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+        {uploadList.map((item) => (
+          <div
+            key={item.id}
+            className="bg-gray-50 border border-gray-300 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow duration-300"
+          >
+            <img src={item.imageUrl} alt={item.name} className="w-full h-40 object-cover mb-4 rounded-lg" />
+            <h2 className="font-bold text-lg text-center mb-2 text-gray-800">{item.name}</h2>
+            <p className="text-gray-600 text-sm text-center mb-2">
+              {show ? item.description : item.description.slice(0, 75) + "..."}
+              <span
+                onClick={() => setShow(!show)}
+                className="underline cursor-pointer text-blue-500 ml-2"
+              >
+                {show ? "show less" : "show more"}
+              </span>
+            </p>
+            <p className="text-sm text-center">Brand: {item.filter}</p>
+            <p className="text-green-600 font-semibold text-center text-lg">₦{item.price.toFixed(2)}</p>
             <button
-              className="w-full md:w-1/2 bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition duration-200 ease-in-out disabled:bg-gray-400 disabled:cursor-not-allowed"
-              onClick={uploadAll}
-              disabled={isLoading}
+              onClick={() => deleteItem(item.id)}
+              className="w-full mt-4 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-200 ease-in-out"
             >
-              {isLoading ? "Uploading..." : "Upload"}
+              Delete
             </button>
           </div>
-
-          <div className="flex md:flex-row flex-col justify-between mb-10">
-            <p className="font-bold text-lg text-black">Uploaded Products</p>
-            {isFetching ?<div className="flex items-center gap-2">
-              <p><span className="loader"></span></p>
-              <p className="text-sm">chillax, it&apos;s fetching bro...</p>
-            </div> : ''}
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {uploadList.map((item) => (
-              <div
-                key={item.id}
-                className="bg-gray-50 border border-gray-300 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow duration-300"
-              >
-                <img src={item.imageUrl} alt={item.name} className="w-full h-40 object-cover mb-4 rounded-lg" />
-                <h2 className="font-bold text-lg text-center mb-2 text-gray-800">{item.name}</h2>
-                <p className="text-gray-600 text-sm text-center mb-2">
-                  {show ? item.description : item.description.slice(0, 75) + "..."}
-                  <span onClick={() => setShow(!show)} className="underline cursor-pointer text-blue-500 ml-2">
-                    {show ? "show less" : "show more"}
-                  </span>
-                </p>
-                <p className="text-sm text-center">Brand: {item.filter}</p>
-                <p className="text-green-600 font-semibold text-center text-lg">${item.price.toFixed(2)}</p>
-                <button
-                  onClick={() => deleteItem(item.id)}
-                  className="w-full mt-4 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-200 ease-in-out"
-                >
-                  Delete
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
+        ))}
       </div>
     </div>
+  </div>
+  {/* <Footer/> */}
+</div>
+
   );
 };
 

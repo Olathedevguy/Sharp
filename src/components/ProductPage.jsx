@@ -63,6 +63,7 @@ const ProductPage = () => {
             <ShoppingCart className="w-5 h-5" />
             Add to Cart
           </button>
+          <p className="text-sm">pretend like the button is working (it isn't) </p>
         </div>
       </div>
     </div>

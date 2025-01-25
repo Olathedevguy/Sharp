@@ -15,13 +15,11 @@ export default function BasicSelect({shoeType, setShoeType}) {
   };
 
 
-    
-    console.log(shoeType)
 
 
   return (
-    <Box sx={{ minWidth: 250 }}>
-      <FormControl fullWidth>
+    <Box sx={{ minWidth: 230, maxWidth:530}}>
+      <FormControl fullWidth className='bg-white'>
         <InputLabel id="demo-simple-select-label">Shoe Brand</InputLabel>
         <Select
           labelId="demo-simple-select-label"

@@ -87,11 +87,11 @@ const AdminAuthPage = ({ isAdminLoginSuccessful, handleAdminSuccess }) => {
                 <button onClick={()=>setShowPwd(!showPwd)} className='text-blue-300 hover:text-blue-400 absolute top-10 left-[22.5rem]'>{showPwd?<Eye/>:<EyeOff/>}</button>
                 </div>
                 <button
-                    className="bg-black text-white py-2 rounded-md w-full flex justify-center items-center"
+                    className={`${isLoading ? "bg-transparent":"bg-black"} text-white py-2 rounded-md w-full flex justify-center items-center`}
                     onClick={loginAsAdmin}
                 >
                     {isLoading ? (
-                            <Rings color='white' />
+                            <Rings color='white' width={50}/>
                     ) : (
                         'Login'
                     )}

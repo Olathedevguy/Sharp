@@ -31,7 +31,7 @@ const Users = () => {
   return (
     <div className="flex">
       <SideBar />
-      <div className="flex flex-col w-full px-4">
+      <div className="flex flex-col w-full px-4 md:ml-[200px] ml-0  ">
         {loadingState ? (
           <div className="flex items-center justify-center mt-20">
             <InfinitySpin
