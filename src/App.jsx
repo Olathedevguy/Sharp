@@ -25,7 +25,10 @@ import ProtectedAdminRoute from "./components/admin/protectedAdminRoute";
 
 const App = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [isAdminLoginSuccessful, setIsAdminLoginSuccessful] = useState(false);
+  const [isAdminLoginSuccessful, setIsAdminLoginSuccessful] = useState(
+    () => localStorage.getItem("isAdminLoginSuccessful") === "true"
+  );
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -39,11 +42,14 @@ const App = () => {
   ];
 
   // Display Navbar only on non-admin routes
-  const shouldDisplayNav = !adminRoutes.includes(location.pathname);
+  const shouldDisplayNav = !adminRoutes.some((route) =>
+    location.pathname.startsWith(route)
+  );
 
   // Handle admin login success
   const handleAdminSuccess = () => {
     setIsAdminLoginSuccessful(true);
+    localStorage.setItem("isAdminLoginSuccessful", "true");
     navigate("/admin");
   };
 
@@ -75,13 +81,14 @@ const App = () => {
         <Route path="/menu" element={<Menu />} />
         <Route path="/signUp" element={<Auth />} />
 
-        {/* admin paths to protect */}
+        {/* Protected admin routes */}
         <Route
           path="/admin"
           element={
             <ProtectedAdminRoute
               isAllowed={isAdminLoginSuccessful}
-              redirectTo={"/admin/auth"}>
+              redirectTo={"/admin/auth"}
+            >
               <Admin />
             </ProtectedAdminRoute>
           }
@@ -91,7 +98,8 @@ const App = () => {
           element={
             <ProtectedAdminRoute
               isAllowed={isAdminLoginSuccessful}
-              redirectTo={"/admin/auth"}>
+              redirectTo={"/admin/auth"}
+            >
               <Users />
             </ProtectedAdminRoute>
           }
@@ -101,7 +109,8 @@ const App = () => {
           element={
             <ProtectedAdminRoute
               isAllowed={isAdminLoginSuccessful}
-              redirectTo={"/admin/auth"}>
+              redirectTo={"/admin/auth"}
+            >
               <Upload />
             </ProtectedAdminRoute>
           }
@@ -111,14 +120,14 @@ const App = () => {
           element={
             <ProtectedAdminRoute
               isAllowed={isAdminLoginSuccessful}
-              redirectTo={"/admin/auth"}>
+              redirectTo={"/admin/auth"}
+            >
               <Setting />
             </ProtectedAdminRoute>
           }
         />
 
-        {/*end of admin routes to protect*/}
-
+        {/* Admin login */}
         <Route
           path="/admin/auth"
           element={
@@ -129,6 +138,7 @@ const App = () => {
           }
         />
 
+        {/* Other routes */}
         <Route path="/test" element={<Test />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/product/:id" element={<ProductPage />} />
@@ -136,5 +146,6 @@ const App = () => {
     </div>
   );
 };
+
 
 export default App;
